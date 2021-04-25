@@ -13,7 +13,7 @@ namespace GenieMistro.Models
         }
 
         public int Id { get; set; }
-        public string Indicator1 { get; set; }
+        public string IndicatorText { get; set; }
         public int? LevelIndex { get; set; }
         public int? ComId { get; set; }
 

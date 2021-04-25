@@ -9,7 +9,7 @@ using GenieMistro.Models;
 
 namespace GenieMistro.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("~/api/[controller]/[action]")]
     [ApiController]
     public class CompetenciesController : ControllerBase
     {
@@ -22,6 +22,7 @@ namespace GenieMistro.Controllers
 
         // GET: api/Competencies
         [HttpGet]
+
         public async Task<ActionResult<IEnumerable<Competency>>> GetCompetencies()
         {
             return await _context.Competencies.ToListAsync();

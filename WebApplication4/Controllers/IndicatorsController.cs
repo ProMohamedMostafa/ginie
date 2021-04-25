@@ -9,7 +9,7 @@ using GenieMistro.Models;
 
 namespace GenieMistro.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("~/api/[controller]/[action]")]
     [ApiController]
     public class IndicatorsController : ControllerBase
     {

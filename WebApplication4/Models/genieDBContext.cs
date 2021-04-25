@@ -101,9 +101,7 @@ namespace GenieMistro.Models
 
                 entity.Property(e => e.ComId).HasColumnName("comId");
 
-                entity.Property(e => e.Indicator1)
-                    .HasMaxLength(300)
-                    .HasColumnName("Indicator");
+                entity.Property(e => e.IndicatorText).HasMaxLength(300);
 
                 entity.HasOne(d => d.Com)
                     .WithMany(p => p.Indicators)
@@ -117,20 +115,6 @@ namespace GenieMistro.Models
                     .HasName("PK__tbEmploy__AFB3EC0D15838026");
 
                 entity.ToTable("tbEmployee");
-
-                entity.HasIndex(e => e.EmpEmail, "NonClusterdEmpEmail")
-                    .IsUnique()
-                    .HasFilter("([empEmail] IS NOT NULL)");
-
-                entity.HasIndex(e => e.EmpName, "NonClusterdEmpName")
-                    .IsUnique()
-                    .HasFilter("([empNAme] IS NOT NULL)");
-
-                entity.HasIndex(e => e.EmpName, "UQ__tbEmploy__14E9E1FECFFF4796")
-                    .IsUnique();
-
-                entity.HasIndex(e => e.EmpEmail, "UQ__tbEmploy__A596705365F44A5D")
-                    .IsUnique();
 
                 entity.Property(e => e.EmpId).HasColumnName("empId");
 
