@@ -11,6 +11,7 @@ namespace GenieMistro.Controllers
 {
     [Route("~/api/[controller]/[action]")]
     [ApiController]
+    [EnableCors("AllowOrigin")]
     public class IndicatorsController : ControllerBase
     {
         private readonly genieDBContext _context;

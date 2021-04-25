@@ -6,11 +6,13 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using GenieMistro.Models;
+using Microsoft.AspNetCore.Cors;
 
 namespace GenieMistro.Controllers
 {
     [Route("~/api/[controller]/[action]")]
     [ApiController]
+    [EnableCors("AllowOrigin")]
     public class CompetenciesController : ControllerBase
     {
         private readonly genieDBContext _context;
