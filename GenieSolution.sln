@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.31129.286
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GenieMistro", "WebApplication4\GenieMistro.csproj", "{F88457BF-DB8F-4493-B6F6-8BF6657F3697}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{F88457BF-DB8F-4493-B6F6-8BF6657F3697}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F88457BF-DB8F-4493-B6F6-8BF6657F3697}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F88457BF-DB8F-4493-B6F6-8BF6657F3697}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F88457BF-DB8F-4493-B6F6-8BF6657F3697}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {C2C9D98D-A2CF-4010-A2EF-53C3D5D87939}
+	EndGlobalSection
+EndGlobal
