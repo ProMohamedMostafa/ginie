@@ -133,3 +133,5 @@ D:\MyWork\BusinessCLinic\github\Genie\ginie\WebApplication4\obj\Debug\net5.0\Gen
 D:\MyWork\BusinessCLinic\github\Genie\ginie\WebApplication4\obj\Debug\net5.0\ref\GenieMistro.dll
 D:\MyWork\BusinessCLinic\github\Genie\ginie\WebApplication4\obj\Debug\net5.0\GenieMistro.pdb
 D:\MyWork\BusinessCLinic\github\Genie\ginie\WebApplication4\obj\Debug\net5.0\GenieMistro.genruntimeconfig.cache
+D:\MyWork\BusinessCLinic\github\Genie\ginie\WebApplication4\bin\Debug\net5.0\Microsoft.AspNetCore.JsonPatch.dll
+D:\MyWork\BusinessCLinic\github\Genie\ginie\WebApplication4\bin\Debug\net5.0\Microsoft.AspNetCore.Mvc.NewtonsoftJson.dll

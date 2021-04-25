@@ -28,7 +28,21 @@ namespace GenieMistro.Controllers
         [Route("~/api/TbEmployees/GetTbEmployees")]
         public async Task<ActionResult<IEnumerable<TbEmployee>>> GetTbEmployees()
         {
-            return await _context.TbEmployees.ToListAsync();
+            List<TbEmployee> es2 = new List<TbEmployee>();
+            List<TbEmployee> es = new List<TbEmployee>();
+
+            es = await _context.TbEmployees.ToListAsync();
+            foreach (TbEmployee t in es )
+            {
+                TbEmployee temp = new TbEmployee();
+                temp.EmpId = t.EmpId;
+                temp.EmpName = t.EmpName;
+                temp.EmpEmail = t.EmpEmail;
+                temp.ManagerId = t.ManagerId;
+                es2.Add(temp);
+            }
+           
+            return es2;
         }
 
         // GET: api/TbEmployees/5
