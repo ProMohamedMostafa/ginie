@@ -39,6 +39,9 @@ namespace GenieMistro.Controllers
                 temp.EmpName = t.EmpName;
                 temp.EmpEmail = t.EmpEmail;
                 temp.ManagerId = t.ManagerId;
+                temp.EmpTitle = t.EmpTitle;
+                temp.EmpTitleLevel = t.EmpTitleLevel;
+                temp.IndicatorId = t.IndicatorId;
                 es2.Add(temp);
             }
            
