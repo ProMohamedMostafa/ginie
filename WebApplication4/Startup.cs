@@ -55,7 +55,7 @@ namespace WebApplication4
             app.UseHttpsRedirection();
 
             app.UseRouting();
-            app.UseCors(options => options.AllowAnyHeader().AllowAnyOrigin().AllowAnyOrigin());
+            app.UseCors(options => options.AllowAnyHeader().AllowAnyOrigin().AllowAnyMethod());
 
             app.UseAuthorization();
 
