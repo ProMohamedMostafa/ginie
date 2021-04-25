@@ -9135,11 +9135,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "D:\\MyWork\\BusinessCLinic\\Solution\\WebApplication4\\WebApplication4\\GenieMistro.csproj",
+      "projectUniqueName": "D:\\MyWork\\BusinessCLinic\\github\\Genie\\ginie\\WebApplication4\\GenieMistro.csproj",
       "projectName": "GenieMistro",
-      "projectPath": "D:\\MyWork\\BusinessCLinic\\Solution\\WebApplication4\\WebApplication4\\GenieMistro.csproj",
+      "projectPath": "D:\\MyWork\\BusinessCLinic\\github\\Genie\\ginie\\WebApplication4\\GenieMistro.csproj",
       "packagesPath": "C:\\Users\\Mohamed\\.nuget\\packages\\",
-      "outputPath": "D:\\MyWork\\BusinessCLinic\\Solution\\WebApplication4\\WebApplication4\\obj\\",
+      "outputPath": "D:\\MyWork\\BusinessCLinic\\github\\Genie\\ginie\\WebApplication4\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "C:\\Program Files (x86)\\DevExpress 20.2\\Components\\Offline Packages"
