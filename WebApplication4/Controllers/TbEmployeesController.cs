@@ -114,7 +114,7 @@ namespace GenieMistro.Controllers
         // DELETE: api/TbEmployees/5
         [HttpDelete("{id}")]
         [EnableCors("AllowOrigin")]
-        [Route("~/api/TbEmployees/DeleteTbEmployee")]
+        [Route("~/api/TbEmployees/DeleteTbEmployee/{id}")]
         public async Task<IActionResult> DeleteTbEmployee(int id)
         {
             var tbEmployee = await _context.TbEmployees.FindAsync(id);
