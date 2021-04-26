@@ -53,7 +53,7 @@ namespace WebApplication4.Controllers
         // PUT: api/BusinessAccounts/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [EnableCors("AllowOrigin")]
-        [Route("~/api/BusinessAccounts/PutBusinessAccount")]
+        [Route("~/api/BusinessAccounts/PutBusinessAccount/{id}")]
         [HttpPut("{id}")]
         public async Task<IActionResult> PutBusinessAccount(int id, BusinessAccount businessAccount)
         {

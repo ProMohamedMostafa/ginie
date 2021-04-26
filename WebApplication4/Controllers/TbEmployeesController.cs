@@ -51,7 +51,7 @@ namespace GenieMistro.Controllers
         // GET: api/TbEmployees/5
         [HttpGet("{id}")]
         [EnableCors("AllowOrigin")]
-        [Route("~/api/TbEmployees/GetTbEmployee")]
+        [Route("~/api/TbEmployees/GetTbEmployee/{id}")]
 
         public async Task<ActionResult<TbEmployee>> GetTbEmployee(int id)
         {
@@ -69,12 +69,12 @@ namespace GenieMistro.Controllers
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]
         [EnableCors("AllowOrigin")]
-        [Route("~/api/TbEmployees/PutTbEmployee")]
-        public async Task<IActionResult> PutTbEmployee(int id, TbEmployee tbEmployee)
+        [Route("~/api/TbEmployees/PutTbEmployee/{id}")]
+        public async Task<ActionResult<TbEmployee>> PutTbEmployee(int id, TbEmployee tbEmployee)
         {
             if (id != tbEmployee.EmpId)
             {
-                return BadRequest();
+                return BadRequest("This ID not found");
             }
 
             _context.Entry(tbEmployee).State = EntityState.Modified;
@@ -95,7 +95,7 @@ namespace GenieMistro.Controllers
                 }
             }
 
-            return NoContent();
+            return await _context.TbEmployees.FindAsync(id);
         }
 
         // POST: api/TbEmployees
