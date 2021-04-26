@@ -46,8 +46,9 @@ namespace GenieMistro.Controllers
 
         // PUT: api/Competencies/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
+        [Route("~/api/[controller]/[action]/{id}")]
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutCompetency(int id, Competency competency)
+        public async Task<ActionResult<Competency>> PutCompetency(int id, Competency competency)
         {
             if (id != competency.ComId)
             {
@@ -72,7 +73,7 @@ namespace GenieMistro.Controllers
                 }
             }
 
-            return NoContent();
+            return competency;
         }
 
         // POST: api/Competencies
