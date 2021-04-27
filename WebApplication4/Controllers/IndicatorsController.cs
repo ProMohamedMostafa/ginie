@@ -45,8 +45,9 @@ namespace GenieMistro.Controllers
 
         // PUT: api/Indicators/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
+        [Route("~/api/[controller]/[action]/{id}")]
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutIndicator(int id, Indicator indicator)
+        public async Task<ActionResult<Indicator>> PutIndicator(int id, Indicator indicator)
         {
             if (id != indicator.Id)
             {
@@ -71,7 +72,7 @@ namespace GenieMistro.Controllers
                 }
             }
 
-            return NoContent();
+            return Ok(indicator);
         }
 
         // POST: api/Indicators
