@@ -129,6 +129,19 @@ namespace GenieMistro.Controllers
             return NoContent();
         }
 
+
+
+       
+        [EnableCors("AllowOrigin")]
+        [Route("~/api/TbEmployees/GetLevelsCount")]
+        [HttpGet]
+        public  int GetLevelsCount()
+        {
+            int max = 0;
+            max = (int)_context.TbEmployees.Max(e => e.EmpTitleLevel);
+          
+            return max; ;
+        }
         private bool TbEmployeeExists(int id)
         {
             return _context.TbEmployees.Any(e => e.EmpId == id);
