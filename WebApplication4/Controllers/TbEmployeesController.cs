@@ -41,7 +41,7 @@ namespace GenieMistro.Controllers
                 temp.ManagerId = t.ManagerId;
                 temp.EmpTitle = t.EmpTitle;
                 temp.EmpTitleLevel = t.EmpTitleLevel;
-                temp.IndicatorId = t.IndicatorId;
+                
                 es2.Add(temp);
             }
            

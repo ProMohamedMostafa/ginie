@@ -18,6 +18,7 @@ namespace GenieMistro.Models
         }
 
         public virtual DbSet<BusinessAccount> BusinessAccounts { get; set; }
+        public virtual DbSet<CompAssign> CompAssigns { get; set; }
         public virtual DbSet<Competency> Competencies { get; set; }
         public virtual DbSet<Indicator> Indicators { get; set; }
         public virtual DbSet<TbEmployee> TbEmployees { get; set; }
@@ -75,6 +76,17 @@ namespace GenieMistro.Models
                     .HasMaxLength(100);
             });
 
+            modelBuilder.Entity<CompAssign>(entity =>
+            {
+                entity.ToTable("compAssign");
+
+                entity.Property(e => e.Id).HasColumnName("id");
+
+                entity.Property(e => e.ComLevel).HasColumnName("comLevel");
+
+                entity.Property(e => e.CompId).HasColumnName("compId");
+            });
+
             modelBuilder.Entity<Competency>(entity =>
             {
                 entity.HasKey(e => e.ComId)
@@ -106,6 +118,7 @@ namespace GenieMistro.Models
                 entity.HasOne(d => d.Com)
                     .WithMany(p => p.Indicators)
                     .HasForeignKey(d => d.ComId)
+                    .OnDelete(DeleteBehavior.Cascade)
                     .HasConstraintName("FK__Indicator__comId__38996AB5");
             });
 
@@ -134,19 +147,7 @@ namespace GenieMistro.Models
                     .HasMaxLength(100)
                     .HasColumnName("empTitle");
 
-                entity.Property(e => e.IndicatorId).HasColumnName("indicatorId");
-
                 entity.Property(e => e.ManagerId).HasColumnName("managerID");
-
-                entity.HasOne(d => d.Indicator)
-                    .WithMany(p => p.TbEmployees)
-                    .HasForeignKey(d => d.IndicatorId)
-                    .HasConstraintName("FK__tbEmploye__indic__3F466844");
-
-                entity.HasOne(d => d.Manager)
-                    .WithMany(p => p.InverseManager)
-                    .HasForeignKey(d => d.ManagerId)
-                    .HasConstraintName("FK__tbEmploye__manag__3E52440B");
             });
 
             OnModelCreatingPartial(modelBuilder);
