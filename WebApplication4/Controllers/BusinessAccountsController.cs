@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net.Http;
 using System.Threading.Tasks;
 using GenieMistro.Models;
 using Microsoft.AspNetCore.Cors;
@@ -31,8 +32,10 @@ namespace WebApplication4.Controllers
         [EnableCors("AllowOrigin")]
         [Route("~/api/BusinessAccounts/GetBusinessAccount")]
 
-        public ActionResult<BusinessAccount> GetBusinessAccount(string email, String password)
+        public async Task<ActionResult<BusinessAccount>> GetBusinessAccountAsync(string email, String password)
         {
+            
+           // return product;
             List<BusinessAccount> bs = _context.BusinessAccounts.ToList();
             BusinessAccount businessAccount = new BusinessAccount();
             foreach (BusinessAccount b in bs)
