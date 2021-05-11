@@ -17,11 +17,21 @@ namespace GenieMistro.Models
         {
         }
 
+        public virtual DbSet<ActionPlan> ActionPlans { get; set; }
         public virtual DbSet<BusinessAccount> BusinessAccounts { get; set; }
         public virtual DbSet<CompAssign> CompAssigns { get; set; }
         public virtual DbSet<Competency> Competencies { get; set; }
         public virtual DbSet<Indicator> Indicators { get; set; }
+        public virtual DbSet<Mission> Missions { get; set; }
+        public virtual DbSet<MissionDept> MissionDepts { get; set; }
+        public virtual DbSet<MissionMissionDept> MissionMissionDepts { get; set; }
+        public virtual DbSet<Objective> Objectives { get; set; }
+        public virtual DbSet<ObjectiveEmployee> ObjectiveEmployees { get; set; }
+        public virtual DbSet<Project> Projects { get; set; }
+        public virtual DbSet<Purpose> Purposes { get; set; }
+        public virtual DbSet<StratigicObjective> StratigicObjectives { get; set; }
         public virtual DbSet<TbEmployee> TbEmployees { get; set; }
+        public virtual DbSet<Vision> Visions { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
@@ -35,6 +45,29 @@ namespace GenieMistro.Models
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.HasAnnotation("Relational:Collation", "SQL_Latin1_General_CP1_CI_AS");
+
+            modelBuilder.Entity<ActionPlan>(entity =>
+            {
+                entity.ToTable("ActionPlan");
+
+                entity.Property(e => e.Description).HasMaxLength(200);
+
+                entity.Property(e => e.EndDate).HasColumnType("date");
+
+                entity.Property(e => e.Name)
+                    .IsRequired()
+                    .HasMaxLength(200);
+
+                entity.Property(e => e.StartDate)
+                    .HasColumnType("date")
+                    .HasColumnName("startDate");
+
+                entity.HasOne(d => d.Objective)
+                    .WithMany(p => p.ActionPlans)
+                    .HasForeignKey(d => d.ObjectiveId)
+                    .OnDelete(DeleteBehavior.Cascade)
+                    .HasConstraintName("FK__ActionPla__Objec__17F790F9");
+            });
 
             modelBuilder.Entity<BusinessAccount>(entity =>
             {
@@ -85,6 +118,12 @@ namespace GenieMistro.Models
                 entity.Property(e => e.ComLevel).HasColumnName("comLevel");
 
                 entity.Property(e => e.CompId).HasColumnName("compId");
+
+                entity.HasOne(d => d.Comp)
+                    .WithMany(p => p.CompAssigns)
+                    .HasForeignKey(d => d.CompId)
+                    .OnDelete(DeleteBehavior.Cascade)
+                    .HasConstraintName("FK_compAssign_Competency");
             });
 
             modelBuilder.Entity<Competency>(entity =>
@@ -122,6 +161,184 @@ namespace GenieMistro.Models
                     .HasConstraintName("FK__Indicator__comId__38996AB5");
             });
 
+            modelBuilder.Entity<Mission>(entity =>
+            {
+                entity.ToTable("Mission");
+
+                entity.Property(e => e.AffectingMisionSuccess).HasMaxLength(500);
+
+                entity.Property(e => e.AffectingMissionFailure).HasMaxLength(500);
+
+                entity.Property(e => e.EndDate)
+                    .HasColumnType("date")
+                    .HasColumnName("endDate");
+
+                entity.Property(e => e.MissionDescription).HasMaxLength(2000);
+
+                entity.Property(e => e.MissionText)
+                    .IsRequired()
+                    .HasMaxLength(500);
+
+                entity.Property(e => e.MissionType).HasMaxLength(200);
+
+                entity.Property(e => e.StartDate)
+                    .HasColumnType("date")
+                    .HasColumnName("startDate");
+
+                entity.HasOne(d => d.Vision)
+                    .WithMany(p => p.Missions)
+                    .HasForeignKey(d => d.VisionId)
+                    .OnDelete(DeleteBehavior.SetNull)
+                    .HasConstraintName("FK__Mission__VisionI__74AE54BC");
+            });
+
+            modelBuilder.Entity<MissionDept>(entity =>
+            {
+                entity.HasIndex(e => e.DepName, "UQ__MissionD__49814543558B0F53")
+                    .IsUnique();
+
+                entity.Property(e => e.DepName)
+                    .IsRequired()
+                    .HasMaxLength(200)
+                    .HasColumnName("depName");
+
+                entity.Property(e => e.DeptDescription).HasMaxLength(500);
+            });
+
+            modelBuilder.Entity<MissionMissionDept>(entity =>
+            {
+                entity.HasKey(e => new { e.MissionId, e.MissionDeptId })
+                    .HasName("PK__Mission___386573E9AE43507E");
+
+                entity.ToTable("Mission_MissionDepts");
+
+                entity.Property(e => e.MissionId).HasColumnName("MissionID");
+
+                entity.Property(e => e.MissionDeptId).HasColumnName("MissionDeptID");
+
+                entity.HasOne(d => d.MissionDept)
+                    .WithMany(p => p.MissionMissionDepts)
+                    .HasForeignKey(d => d.MissionDeptId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK__Mission_M__Missi__04E4BC85");
+
+                entity.HasOne(d => d.Mission)
+                    .WithMany(p => p.MissionMissionDepts)
+                    .HasForeignKey(d => d.MissionId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK__Mission_M__Missi__03F0984C");
+            });
+
+            modelBuilder.Entity<Objective>(entity =>
+            {
+                entity.ToTable("Objective");
+
+                entity.HasIndex(e => e.Name, "UQ__Objectiv__737584F69166717D")
+                    .IsUnique();
+
+                entity.Property(e => e.Description).HasMaxLength(500);
+
+                entity.Property(e => e.EndDate).HasColumnType("date");
+
+                entity.Property(e => e.Name)
+                    .IsRequired()
+                    .HasMaxLength(200);
+
+                entity.Property(e => e.ProjectId).HasColumnName("projectId");
+
+                entity.Property(e => e.StartDate).HasColumnType("date");
+
+                entity.HasOne(d => d.Project)
+                    .WithMany(p => p.Objectives)
+                    .HasForeignKey(d => d.ProjectId)
+                    .OnDelete(DeleteBehavior.Cascade)
+                    .HasConstraintName("FK__Objective__proje__151B244E");
+            });
+
+            modelBuilder.Entity<ObjectiveEmployee>(entity =>
+            {
+                entity.HasKey(e => new { e.ObjectiveId, e.EmployeeId })
+                    .HasName("PK__Objectiv__8BFB375CA1783A48");
+
+                entity.ToTable("ObjectiveEmployee");
+
+                entity.HasOne(d => d.Employee)
+                    .WithMany(p => p.ObjectiveEmployees)
+                    .HasForeignKey(d => d.EmployeeId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK__Objective__Emplo__1BC821DD");
+
+                entity.HasOne(d => d.Objective)
+                    .WithMany(p => p.ObjectiveEmployees)
+                    .HasForeignKey(d => d.ObjectiveId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK__Objective__Objec__1AD3FDA4");
+            });
+
+            modelBuilder.Entity<Project>(entity =>
+            {
+                entity.ToTable("Project");
+
+                entity.Property(e => e.Description).HasMaxLength(2000);
+
+                entity.Property(e => e.EndDate).HasColumnType("date");
+
+                entity.Property(e => e.Name)
+                    .IsRequired()
+                    .HasMaxLength(200);
+
+                entity.Property(e => e.StartDate).HasColumnType("date");
+
+                entity.HasOne(d => d.StratigicObjective)
+                    .WithMany(p => p.Projects)
+                    .HasForeignKey(d => d.StratigicObjectiveId)
+                    .OnDelete(DeleteBehavior.Cascade)
+                    .HasConstraintName("FK__Project__Stratig__114A936A");
+            });
+
+            modelBuilder.Entity<Purpose>(entity =>
+            {
+                entity.ToTable("Purpose");
+
+                entity.Property(e => e.Notes).HasMaxLength(500);
+
+                entity.Property(e => e.PurposeDescription)
+                    .HasMaxLength(2000)
+                    .HasColumnName("purposeDescription");
+
+                entity.Property(e => e.PurposeText).HasMaxLength(500);
+            });
+
+            modelBuilder.Entity<StratigicObjective>(entity =>
+            {
+                entity.ToTable("StratigicObjective");
+
+                entity.Property(e => e.EndDate).HasColumnType("date");
+
+                entity.Property(e => e.MissionId).HasColumnName("missionId");
+
+                entity.Property(e => e.Note).HasMaxLength(500);
+
+                entity.Property(e => e.StartDate).HasColumnType("date");
+
+                entity.Property(e => e.StrObjDescription).HasMaxLength(500);
+
+                entity.Property(e => e.StratigicObjectiveName)
+                    .IsRequired()
+                    .HasMaxLength(200);
+
+                entity.HasOne(d => d.DepdancyStratigicObjectiveNavigation)
+                    .WithMany(p => p.InverseDepdancyStratigicObjectiveNavigation)
+                    .HasForeignKey(d => d.DepdancyStratigicObjective)
+                    .HasConstraintName("FK__Stratigic__Depda__01142BA1");
+
+                entity.HasOne(d => d.Mission)
+                    .WithMany(p => p.StratigicObjectives)
+                    .HasForeignKey(d => d.MissionId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_StratigicObjective_Mission");
+            });
+
             modelBuilder.Entity<TbEmployee>(entity =>
             {
                 entity.HasKey(e => e.EmpId)
@@ -148,6 +365,28 @@ namespace GenieMistro.Models
                     .HasColumnName("empTitle");
 
                 entity.Property(e => e.ManagerId).HasColumnName("managerID");
+            });
+
+            modelBuilder.Entity<Vision>(entity =>
+            {
+                entity.ToTable("Vision");
+
+                entity.Property(e => e.PurposeId).HasColumnName("purposeId");
+
+                entity.Property(e => e.VisionDescription)
+                    .HasMaxLength(2000)
+                    .HasColumnName("visionDescription");
+
+                entity.Property(e => e.VisionText)
+                    .IsRequired()
+                    .HasMaxLength(500)
+                    .HasColumnName("visionText");
+
+                entity.HasOne(d => d.Purpose)
+                    .WithMany(p => p.Visions)
+                    .HasForeignKey(d => d.PurposeId)
+                    .OnDelete(DeleteBehavior.SetNull)
+                    .HasConstraintName("FK__Vision__purposeI__71D1E811");
             });
 
             OnModelCreatingPartial(modelBuilder);

@@ -11,5 +11,7 @@ namespace GenieMistro.Models
         public int? CompId { get; set; }
         public int? ComLevel { get; set; }
         public int? StructureLevel { get; set; }
+
+        public virtual Competency Comp { get; set; }
     }
 }

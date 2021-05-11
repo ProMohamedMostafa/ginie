@@ -9,6 +9,7 @@ namespace GenieMistro.Models
     {
         public Competency()
         {
+            CompAssigns = new HashSet<CompAssign>();
             Indicators = new HashSet<Indicator>();
         }
 
@@ -17,6 +18,7 @@ namespace GenieMistro.Models
         public string ComDeptName { get; set; }
         public int? ComLevels { get; set; }
 
+        public virtual ICollection<CompAssign> CompAssigns { get; set; }
         public virtual ICollection<Indicator> Indicators { get; set; }
     }
 }
