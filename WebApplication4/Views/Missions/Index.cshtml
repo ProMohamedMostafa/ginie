@@ -1,0 +1,83 @@
+﻿@model IEnumerable<GenieMistro.Models.Mission>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>Index</h1>
+
+<p>
+    <a asp-action="Create">Create New</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.MissionText)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.MissionDescription)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.StartDate)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.EndDate)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.WightFromVision)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.MissionType)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.AffectingMisionSuccess)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.AffectingMissionFailure)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Vision)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.MissionText)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.MissionDescription)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.StartDate)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.EndDate)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.WightFromVision)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.MissionType)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.AffectingMisionSuccess)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.AffectingMissionFailure)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Vision.VisionText)
+            </td>
+            <td>
+                <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
+                <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
+                <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>

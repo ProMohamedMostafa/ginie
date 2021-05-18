@@ -1,0 +1,72 @@
+﻿@model GenieMistro.Models.Mission
+
+@{
+    ViewData["Title"] = "Details";
+}
+
+<h1>Details</h1>
+
+<div>
+    <h4>Mission</h4>
+    <hr />
+    <dl class="row">
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.MissionText)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.MissionText)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.MissionDescription)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.MissionDescription)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.StartDate)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.StartDate)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.EndDate)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.EndDate)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.WightFromVision)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.WightFromVision)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.MissionType)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.MissionType)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.AffectingMisionSuccess)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.AffectingMisionSuccess)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.AffectingMissionFailure)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.AffectingMissionFailure)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.Vision)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.Vision.VisionText)
+        </dd>
+    </dl>
+</div>
+<div>
+    <a asp-action="Edit" asp-route-id="@Model.Id">Edit</a> |
+    <a asp-action="Index">Back to List</a>
+</div>
