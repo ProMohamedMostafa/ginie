@@ -39,8 +39,24 @@ namespace WebApplication4
                 c.AddPolicy("AllowOrigin", options => options.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader());
             });
 
+
             services.AddDbContext<genieDBContext>(options =>
         options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
+
+            /*
+
+                        services.AddDbContext<genieDBContext>((serviceProvider, dbContextBuilder) =>
+                        {
+                            var _connectionString = Configuration.GetConnectionString("DefaultConnection");
+                            var httpContextAccessor = serviceProvider.GetRequiredService<IHttpContextAccessor>();
+                            var dbName = httpContextAccessor.HttpContext.Request.Headers["DId"].First();
+                            var connectionString = _connectionString.Replace("{dbName}", dbName);
+                            dbContextBuilder.UseSqlServer(connectionString);
+                        });
+            */
+
+
+
             services.AddControllers().AddNewtonsoftJson(options =>
       options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore
   );

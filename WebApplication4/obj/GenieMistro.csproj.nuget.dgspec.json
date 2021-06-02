@@ -1,23 +1,20 @@
 {
   "format": 1,
   "restore": {
-    "C:\\New folder\\ginie v2\\ginie\\WebApplication4\\GenieMistro.csproj": {}
+    "D:\\BusinessCLinic\\GenieGitHub\\Genie\\ginie\\WebApplication4\\GenieMistro.csproj": {}
   },
   "projects": {
-    "C:\\New folder\\ginie v2\\ginie\\WebApplication4\\GenieMistro.csproj": {
+    "D:\\BusinessCLinic\\GenieGitHub\\Genie\\ginie\\WebApplication4\\GenieMistro.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\New folder\\ginie v2\\ginie\\WebApplication4\\GenieMistro.csproj",
+        "projectUniqueName": "D:\\BusinessCLinic\\GenieGitHub\\Genie\\ginie\\WebApplication4\\GenieMistro.csproj",
         "projectName": "GenieMistro",
-        "projectPath": "C:\\New folder\\ginie v2\\ginie\\WebApplication4\\GenieMistro.csproj",
-        "packagesPath": "C:\\Users\\RO\\.nuget\\packages\\",
-        "outputPath": "C:\\New folder\\ginie v2\\ginie\\WebApplication4\\obj\\",
+        "projectPath": "D:\\BusinessCLinic\\GenieGitHub\\Genie\\ginie\\WebApplication4\\GenieMistro.csproj",
+        "packagesPath": "C:\\Users\\Mohamed\\.nuget\\packages\\",
+        "outputPath": "D:\\BusinessCLinic\\GenieGitHub\\Genie\\ginie\\WebApplication4\\obj\\",
         "projectStyle": "PackageReference",
-        "fallbackFolders": [
-          "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
-        ],
         "configFilePaths": [
-          "C:\\Users\\RO\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\Mohamed\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
@@ -25,8 +22,7 @@
         ],
         "sources": {
           "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
-          "https://api.nuget.org/v3/index.json": {},
-          "https://nuget.telerik.com/nuget": {}
+          "https://api.nuget.org/v3/index.json": {}
         },
         "frameworks": {
           "net5.0": {
@@ -135,7 +131,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\5.0.102\\RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\5.0.300\\RuntimeIdentifierGraph.json"
         }
       }
     }

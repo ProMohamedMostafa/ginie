@@ -27,7 +27,7 @@ namespace GenieMistro.Services
 
             using (var client = new HttpClient())
             {
-                client.BaseAddress = new Uri("http://localhost:64189/api/");
+                client.BaseAddress = new Uri("http://landlord-bl-staging.azurewebsites.net/");
                 //HTTP GET
                 var responseTask = client.GetAsync("GetTbLandLoards");
                 responseTask.Wait();
@@ -60,7 +60,7 @@ namespace GenieMistro.Services
 
             string host = address.Host;
 
-            string Baseurl = "https://localhost:44336/";
+            string Baseurl = "http://landlord-bl-staging.azurewebsites.net/";
             landLoard Db = new landLoard();
             var client = new HttpClient();
 
