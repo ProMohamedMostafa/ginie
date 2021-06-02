@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using GenieMistro.Models;
 using Microsoft.AspNetCore.Cors;
+using GenieMistro.BL;
 
 namespace GenieMistro.Controllers
 {
@@ -16,52 +17,64 @@ namespace GenieMistro.Controllers
     public class CompetenciesController : ControllerBase
     {
         private readonly genieDBContext _context;
-
+        CompetenciesLogic _competenciesLogic;
         public CompetenciesController(genieDBContext context)
         {
             _context = context;
+            _competenciesLogic = new CompetenciesLogic(_context);
         }
 
         // GET: api/Competencies
-        [HttpGet]
-
+       [HttpPost]
         public async Task<ActionResult<IEnumerable<Competency>>> GetCompetencies()
         {
-            return await _context.Competencies.ToListAsync();
+            try
+            {
+                var compAssign = await _competenciesLogic.GetCompetencies();
+                return compAssign;
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError);
+            }
         }
 
         // GET: api/Competencies/5
-        [HttpGet("{id}")]
+        [HttpPost("{id}")]
         public async Task<ActionResult<Competency>> GetCompetency(int id)
         {
-            var competency = await _context.Competencies.FindAsync(id);
-
-            if (competency == null)
+            try
             {
-                return NotFound();
-            }
+                var competency = await _competenciesLogic.GetCompetency(id);
 
-            return competency;
+                if (competency == null)
+                {
+                    return NotFound();
+                }
+
+                return competency;
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError);
+            }
         }
 
         // PUT: api/Competencies/5
-        // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [Route("~/api/[controller]/[action]/{id}")]
-        [HttpPut("{id}")]
+        [HttpPost("{id}")]
         public async Task<ActionResult<Competency>> PutCompetency(int id, Competency competency)
         {
-            if (id != competency.ComId)
-            {
-                return BadRequest();
-            }
-
-            _context.Entry(competency).State = EntityState.Modified;
-
             try
             {
-                await _context.SaveChangesAsync();
+                if (id != competency.Id)
+                {
+                    return BadRequest();
+                }
+                var comAss = await _competenciesLogic.PutCompetency(id, competency);
+                return Ok(comAss);
             }
-            catch (DbUpdateConcurrencyException)
+            catch (DbUpdateConcurrencyException ex)
             {
                 if (!CompetencyExists(id))
                 {
@@ -69,43 +82,62 @@ namespace GenieMistro.Controllers
                 }
                 else
                 {
-                    throw;
+                    throw ex;
                 }
             }
-
-            return competency;
+            catch (Exception ex)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError);
+            }
         }
 
         // POST: api/Competencies
-        // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
         public async Task<ActionResult<Competency>> PostCompetency(Competency competency)
         {
-            _context.Competencies.Add(competency);
-            await _context.SaveChangesAsync();
-
-            return CreatedAtAction("GetCompetency", new { id = competency.ComId }, competency);
+          try
+            {
+                var NewCompetency =await _competenciesLogic.PostCompetency(competency);
+                return Ok(NewCompetency);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError);
+            }
         }
 
-        // DELETE: api/Competencies/5
-        [HttpDelete("{id}")]
+        // Delete Competency with id
+        [HttpPost("{id}")]
         public async Task<IActionResult> DeleteCompetency(int id)
         {
-            var competency = await _context.Competencies.FindAsync(id);
-            if (competency == null)
+            try
             {
-                return NotFound();
+                var compAssign = await _competenciesLogic.DeleteCompetency(id);
+                if (compAssign == false)
+                {
+                    return Ok("Competency Deleted Filled");
+                }
+
+                return Ok("Competency Deleted success");
             }
-
-            _context.Competencies.Remove(competency);
-            await _context.SaveChangesAsync();
-
-            return NoContent();
+            catch (Exception ex)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError);
+            }
         }
 
+        // check if Competency Exist
         private bool CompetencyExists(int id)
         {
-            return _context.Competencies.Any(e => e.ComId == id);
+            try
+            {
+                var CompAssignExist = _competenciesLogic.CompetencyExists(id);
+                return CompAssignExist;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
         }
     }
 }

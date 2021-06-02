@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using GenieMistro.Models;
 using Microsoft.AspNetCore.Cors;
+using GenieMistro.BL;
 
 namespace GenieMistro.Controllers
 {
@@ -16,54 +17,68 @@ namespace GenieMistro.Controllers
     public class CompAssignsController : ControllerBase
     {
         private readonly genieDBContext _context;
-
+        CompAssignsLogic _compAssignsLogic;
         public CompAssignsController(genieDBContext context)
         {
+            _compAssignsLogic = new CompAssignsLogic(_context);
             _context = context;
         }
 
-        // GET: api/CompAssigns
-        [HttpGet]
+        // GET All CompAssigns
+        [HttpPost]
         [Route("~/api/CompAssigns/GetCompAssigns")]
         public async Task<ActionResult<IEnumerable<CompAssign>>> GetCompAssigns()
         {
-            return await _context.CompAssigns.ToListAsync();
+            try
+            {
+                var compAssign = await _compAssignsLogic.GetCompAssigns();
+                return compAssign;
+            }
+            catch (Exception ex)
+            {
+
+                return StatusCode(StatusCodes.Status500InternalServerError);
+            }
         }
 
-        // GET: api/CompAssigns/5
-        [HttpGet("{id}")]
-
+        // GET CompAssign with id
+        [HttpPost("{id}")]
         [Route("~/api/CompAssigns/GetCompAssign/{id}")]
         public async Task<ActionResult<CompAssign>> GetCompAssign(int id)
         {
-            var compAssign = await _context.CompAssigns.FindAsync(id);
-
-            if (compAssign == null)
+            try
             {
-                return NotFound();
-            }
+                var compAssign = await _compAssignsLogic.GetCompAssign(id);
 
-            return compAssign;
+                if (compAssign == null)
+                {
+                    return NotFound();
+                }
+
+                return compAssign;
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError);
+            }
+           
         }
 
-        // PUT: api/CompAssigns/5
-        // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
-        [HttpPut("{id}")]
+        // PUT CompAssigns with id
+        [HttpPost("{id}")]
         [Route("~/api/CompAssigns/PutCompAssign/{id}")]
         public async Task<IActionResult> PutCompAssign(int id, CompAssign compAssign)
         {
-            if (id != compAssign.Id)
-            {
-                return BadRequest();
-            }
-
-            _context.Entry(compAssign).State = EntityState.Modified;
-
             try
             {
-                await _context.SaveChangesAsync();
+                if (id != compAssign.Id)
+                {
+                    return BadRequest();
+                }
+                var comAss = await _compAssignsLogic.PutCompAssign(id, compAssign);
+                return NoContent();
             }
-            catch (DbUpdateConcurrencyException)
+            catch (DbUpdateConcurrencyException ex)
             {
                 if (!CompAssignExists(id))
                 {
@@ -71,46 +86,69 @@ namespace GenieMistro.Controllers
                 }
                 else
                 {
-                    throw;
+                    throw ex;
                 }
             }
-
-            return NoContent();
+            catch (Exception ex)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError);
+            }
+            
         }
 
-        // POST: api/CompAssigns
-        // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
+        // Post CompAssign
         [EnableCors("AllowOrigin")]
         [Route("~/api/CompAssigns/PostCompAssign")]
         [HttpPost]
-
         public async Task<ActionResult<CompAssign>> PostCompAssign(CompAssign compAssign)
         {
-            _context.CompAssigns.Add(compAssign);
-            await _context.SaveChangesAsync();
-
-            return CreatedAtAction("GetCompAssign", new { id = compAssign.Id }, compAssign);
+            try
+            {
+                var NewCompAssign = _compAssignsLogic.PostCompAssign(compAssign);
+                return Ok(NewCompAssign);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError);
+            }
+       
         }
 
-        // DELETE: api/CompAssigns/5
-        [HttpDelete("{id}")]
+        // DELETE CompAssigns 
+        [HttpPost("{id}")]
         public async Task<IActionResult> DeleteCompAssign(int id)
         {
-            var compAssign = await _context.CompAssigns.FindAsync(id);
-            if (compAssign == null)
+            try
             {
-                return NotFound();
+                var compAssign = await _compAssignsLogic.DeleteCompAssign(id);
+                if (compAssign == false)
+                {
+                    return Ok("compAssign Deleted Filled");
+                }
+
+                return Ok("compAssign Deleted success");
             }
-
-            _context.CompAssigns.Remove(compAssign);
-            await _context.SaveChangesAsync();
-
-            return NoContent();
+            catch (Exception ex)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError);
+            }
         }
 
+      
+        // check if CompAssign Exist
         private bool CompAssignExists(int id)
         {
-            return _context.CompAssigns.Any(e => e.Id == id);
+            try
+            {
+                var CompAssignExist = _compAssignsLogic.CompAssignExists(id);
+                return CompAssignExist;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+
         }
+
     }
 }

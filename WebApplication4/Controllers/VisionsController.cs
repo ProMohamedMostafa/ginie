@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using GenieMistro.Models;
 using Microsoft.AspNetCore.Cors;
+using GenieMistro.BL;
 
 namespace GenieMistro.Controllers
 {
@@ -16,50 +17,64 @@ namespace GenieMistro.Controllers
     public class VisionsController : ControllerBase
     {
         private readonly genieDBContext _context;
+        VisionsLogic _visionsLogic;
 
         public VisionsController(genieDBContext context)
         {
             _context = context;
+            _visionsLogic = new VisionsLogic(_context);
         }
 
         // GET: api/Visions
-        [HttpGet]
+        [HttpPost]
         public async Task<ActionResult<IEnumerable<Vision>>> GetVisions()
         {
-            return await _context.Visions.ToListAsync();
+            try
+            {
+                var visions = await _visionsLogic.GetVisions();
+                return visions;
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError);
+            }
         }
 
         // GET: api/Visions/5
-        [HttpGet("{id}")]
+        [HttpPost("{id}")]
         public async Task<ActionResult<Vision>> GetVision(int id)
         {
-            var vision = await _context.Visions.FindAsync(id);
-
-            if (vision == null)
+            try
             {
-                return NotFound();
-            }
+                var vision = await _visionsLogic.GetVision(id);
 
-            return vision;
+                if (vision == null)
+                {
+                    return NotFound();
+                }
+
+                return vision;
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError);
+            }
         }
 
         // PUT: api/Visions/5
-        // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
-        [HttpPut("{id}")]
+        [HttpPost("{id}")]
         public async Task<IActionResult> PutVision(int id, Vision vision)
         {
-            if (id != vision.Id)
-            {
-                return BadRequest();
-            }
-
-            _context.Entry(vision).State = EntityState.Modified;
-
             try
             {
-                await _context.SaveChangesAsync();
+                if (id != vision.Id)
+                {
+                    return BadRequest();
+                }
+                var comAss = await _visionsLogic.PutVision(id, vision);
+                return Ok(vision);
             }
-            catch (DbUpdateConcurrencyException)
+            catch (DbUpdateConcurrencyException ex)
             {
                 if (!VisionExists(id))
                 {
@@ -67,43 +82,65 @@ namespace GenieMistro.Controllers
                 }
                 else
                 {
-                    throw;
+                    throw ex;
                 }
             }
+            catch (Exception ex)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError);
+            }
 
-            return NoContent();
         }
 
         // POST: api/Visions
-        // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
         public async Task<ActionResult<Vision>> PostVision(Vision vision)
         {
-            _context.Visions.Add(vision);
-            await _context.SaveChangesAsync();
-
-            return CreatedAtAction("GetVision", new { id = vision.Id }, vision);
+            try
+            {
+                var NewVision =await _visionsLogic.PostVision(vision);
+                return Ok(NewVision);
+                    }
+            catch (Exception ex)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError);
+            }
         }
 
         // DELETE: api/Visions/5
-        [HttpDelete("{id}")]
+        [HttpPost("{id}")]
         public async Task<IActionResult> DeleteVision(int id)
         {
-            var vision = await _context.Visions.FindAsync(id);
-            if (vision == null)
+            try
             {
-                return NotFound();
+                var vision = await _visionsLogic.DeleteVision(id);
+                if (vision == false)
+                {
+                    return Ok("Vision Deleted Filled");
+                }
+
+                return Ok("Vision Deleted success");
             }
-
-            _context.Visions.Remove(vision);
-            await _context.SaveChangesAsync();
-
-            return NoContent();
+            catch (Exception ex)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError);
+            }
         }
 
+        // check if vision Exist
         private bool VisionExists(int id)
         {
-            return _context.Visions.Any(e => e.Id == id);
+            try
+            {
+                var visionExists = _visionsLogic.VisionExists(id);
+                return visionExists;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+
         }
+
     }
 }

@@ -8,7 +8,11 @@ using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-
+using GenieMistro.Services;
+using System.Net.Http.Headers;
+using Newtonsoft.Json;
+using System.Net.Mail;
+using GenieMistro.BL;
 
 namespace WebApplication4.Controllers
 {
@@ -20,58 +24,104 @@ namespace WebApplication4.Controllers
     public class BusinessAccountsController : ControllerBase
     {
         private readonly genieDBContext _context;
-
+        BusinessAccountLogic _businessAccount;
+       
         public BusinessAccountsController(genieDBContext context)
-        {
+        {            
             _context = context;
+            _businessAccount = new BusinessAccountLogic(_context);
         }
 
 
         // GET: api/BusinessAccounts/5
-        [HttpGet("{id}")]
+        // [HttpGet("{id}")]
+        [HttpPost("{email ,password }")]
         [EnableCors("AllowOrigin")]
         [Route("~/api/BusinessAccounts/GetBusinessAccount")]
-
-        public async Task<ActionResult<BusinessAccount>> GetBusinessAccountAsync(string email, String password)
+        public async Task<ActionResult<BusinessAccount>> GetBusinessAccount(string email, String password)
         {
-            
-           // return product;
-            List<BusinessAccount> bs = _context.BusinessAccounts.ToList();
-            BusinessAccount businessAccount = new BusinessAccount();
-            foreach (BusinessAccount b in bs)
+            try
             {
-                if (b.Email.Trim() == email.Trim() && b.BaPassword.Trim() == password.Trim())
-                    businessAccount = b;
-                break;
+                var businessAccount = await _businessAccount.GetBusinessAccount(email, password);
+                if (businessAccount == null)
+                {
+                    return NotFound(email + password);
+                }
+                // String response = "Accepted Username and password you will connected on database:" + Db.Name;
+                // return Ok(businessAccount + response);
+                return Ok(businessAccount);
             }
-            if (businessAccount == null)
+            catch (Exception ex)
             {
-                return NotFound(email + password);
+                return StatusCode(StatusCodes.Status500InternalServerError);
             }
-            return businessAccount;
+
+        }
+        // POST: api/BusinessAccounts
+        [EnableCors("AllowOrigin")]
+        [Route("~/api/BusinessAccounts/PostBusinessAccount")]
+        [HttpPost]
+        public async Task<ActionResult<BusinessAccount>> PostBusinessAccount(BusinessAccount businessAccount)
+        {
+            try
+            {
+                if (_context.BusinessAccount.Any(e => e.Email == businessAccount.Email))
+                    return StatusCode(500, "Email is already exist");
+                if (_context.BusinessAccount.Any(e => e.BaWebSite == businessAccount.BaWebSite))
+                    return StatusCode(500, " WebSite is already exist");
+                if (_context.BusinessAccount.Any(e => e.BPhone == businessAccount.BPhone))
+                    return StatusCode(500, " Phone is already exist");
+                if (_context.BusinessAccount.Any(e => e.CompanyName == businessAccount.CompanyName))
+                    return StatusCode(500, " Company Name is already exist");
+
+
+                var Account = await _businessAccount.PostBusinessAccount(businessAccount);
+                return Ok(Account);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError);
+            }
 
 
         }
 
-        // PUT: api/BusinessAccounts/5
-        // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [EnableCors("AllowOrigin")]
-        [Route("~/api/BusinessAccounts/PutBusinessAccount/{id}")]
-        [HttpPut("{id}")]
-        public async Task<IActionResult> PutBusinessAccount(int id, BusinessAccount businessAccount)
+        [Route("~/api/BusinessAccounts/postLandLord")]
+        [HttpPost]
+        public ActionResult<landLoard> postLandLord(landLoard landLoard)
         {
-            if (id != businessAccount.Id)
-            {
-                return BadRequest();
-            }
-
-            _context.Entry(businessAccount).State = EntityState.Modified;
-
             try
             {
-                await _context.SaveChangesAsync();
+                var BusinessAccount = _businessAccount.postLandLord(landLoard);
+                return Ok(BusinessAccount);
             }
-            catch (DbUpdateConcurrencyException)
+            catch (Exception ex)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError);
+            }
+
+
+        }
+
+
+        // PUT: api/BusinessAccounts/5
+        [EnableCors("AllowOrigin")]
+        [Route("~/api/BusinessAccounts/PutBusinessAccount/{id}")]
+         [HttpPost("{id}")]
+        public async Task<IActionResult> PutBusinessAccount(int id, BusinessAccount businessAccount)
+        {
+           
+            try
+            {
+                if (id != businessAccount.Id)
+                {
+                    return BadRequest();
+                }
+                var update = await _businessAccount.PutBusinessAccount(id, businessAccount);
+                return Ok(update);
+            }
+            catch (DbUpdateConcurrencyException ex)
             {
                 if (!BusinessAccountExists(id))
                 {
@@ -79,73 +129,71 @@ namespace WebApplication4.Controllers
                 }
                 else
                 {
-                    throw;
+                    throw ex;
                 }
             }
+            catch (Exception ex)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError);
+            }
 
-            return NoContent();
         }
-
-        // POST: api/BusinessAccounts
-        // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
-
-        [EnableCors("AllowOrigin")]
-        [Route("~/api/BusinessAccounts/PostBusinessAccount")]
-        [HttpPost]
-        
-        public async Task<ActionResult<BusinessAccount>> PostBusinessAccount(BusinessAccount businessAccount)
-        {
-          
-            
-            
-           if( _context.BusinessAccounts.Any(e => e.Email == businessAccount.Email))
-                return StatusCode(500, "Email is already exist");
-            if (_context.BusinessAccounts.Any(e => e.BaWebSite == businessAccount.BaWebSite))
-                return StatusCode(500, " WebSite is already exist");
-            if (_context.BusinessAccounts.Any(e => e.BPhone == businessAccount.BPhone))
-                return StatusCode(500, " Phone is already exist");
-            if (_context.BusinessAccounts.Any(e => e.CompanyName == businessAccount.CompanyName))
-                return StatusCode(500, " Company Name is already exist");
-          
-
-
-
-            _context.BusinessAccounts.Add(businessAccount);
-            await _context.SaveChangesAsync();
-            
-
-           // return CreatedAtAction("GetBusinessAccount", new { id = businessAccount.Id }, businessAccount);
-            return Ok(businessAccount);
-        }
-
 
         // GET: api/BusinessAccounts
         [EnableCors("AllowOrigin")]
         [Route("~/api/BusinessAccounts/Get")]
-        [HttpGet]
+        [HttpPost]
         public async Task<ActionResult<IEnumerable<BusinessAccount>>> Get()
         {
-            return await _context.BusinessAccounts.ToListAsync();
+            try
+            {
+                var Accounts = await _businessAccount.Get();
+                return Accounts;
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError);
+            }
         }
-       // DELETE: api/BusinessAccounts/5
-        [HttpDelete("{id}")]
+
+        // DELETE: api/BusinessAccounts/5
+        [HttpPost("{id}")]
         public async Task<IActionResult> DeleteBusinessAccount(int id)
         {
-            var businessAccount = await _context.BusinessAccounts.FindAsync(id);
-            if (businessAccount == null)
+            try
             {
-                return NotFound();
+                var businessAccount = await _businessAccount.DeleteBusinessAccount(id);
+                if (businessAccount == false)
+                {
+                    return Ok("Account Deleted Filled");
+                }
+
+                return Ok("Account Deleted success");
             }
-
-            _context.BusinessAccounts.Remove(businessAccount);
-            await _context.SaveChangesAsync();
-
-            return NoContent();
+            catch (Exception ex)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError);
+            }
         }
 
+        // check if account Exist
         private bool BusinessAccountExists(int id)
         {
-            return _context.BusinessAccounts.Any(e => e.Id == id);
+            try
+            {
+                var AccountExist = _businessAccount.BusinessAccountExists(id);
+                return AccountExist;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+
         }
+
+
+
+
+
     }
 }

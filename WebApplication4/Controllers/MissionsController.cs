@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using GenieMistro.Models;
+using GenieMistro.BL;
 
 namespace GenieMistro.Controllers
 {
@@ -14,50 +15,67 @@ namespace GenieMistro.Controllers
     public class MissionsController : ControllerBase
     {
         private readonly genieDBContext _context;
+        MissionsLogic _missionsLogic;
 
         public MissionsController(genieDBContext context)
         {
             _context = context;
+            _missionsLogic = new MissionsLogic(_context);
         }
 
         // GET: api/Missions
-        [HttpGet]
+        [HttpPost]
+        [Route("~/api/Missions/GetMissions")]
         public async Task<ActionResult<IEnumerable<Mission>>> GetMissions()
         {
-            return await _context.Missions.ToListAsync();
+            try
+            {
+                var missions = await _missionsLogic.GetMissions();
+                return missions;
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError);
+            }
         }
 
         // GET: api/Missions/5
-        [HttpGet("{id}")]
+        [HttpPost("{id}")]
+        [Route("~/api/Missions/GetMission/{id}")]
         public async Task<ActionResult<Mission>> GetMission(int id)
         {
-            var mission = await _context.Missions.FindAsync(id);
-
-            if (mission == null)
+            try
             {
-                return NotFound();
-            }
+                var mission = await _missionsLogic.GetMission(id);
 
-            return mission;
+                if (mission == null)
+                {
+                    return NotFound();
+                }
+
+                return mission;
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError);
+            }
         }
 
         // PUT: api/Missions/5
-        // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
-        [HttpPut("{id}")]
+        [HttpPost("{id}")]
+        [Route("~/api/Missions/PutMission/{id}")]
         public async Task<IActionResult> PutMission(int id, Mission mission)
         {
-            if (id != mission.Id)
-            {
-                return BadRequest();
-            }
-
-            _context.Entry(mission).State = EntityState.Modified;
-
             try
             {
-                await _context.SaveChangesAsync();
+                if (id != mission.Id)
+                {
+                    return BadRequest();
+                }
+                var comAss = await _missionsLogic.PutMission(id, mission);
+                return Ok(mission);
             }
-            catch (DbUpdateConcurrencyException)
+            catch (DbUpdateConcurrencyException ex)
             {
                 if (!MissionExists(id))
                 {
@@ -65,43 +83,63 @@ namespace GenieMistro.Controllers
                 }
                 else
                 {
-                    throw;
+                    throw ex;
                 }
             }
-
-            return NoContent();
+            catch (Exception ex)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError);
+            }
         }
 
         // POST: api/Missions
-        // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
+        [Route("~/api/Missions/PostMission")]
         public async Task<ActionResult<Mission>> PostMission(Mission mission)
         {
-            _context.Missions.Add(mission);
-            await _context.SaveChangesAsync();
-
-            return CreatedAtAction("GetMission", new { id = mission.Id }, mission);
+            try
+            {
+                var NewMission =await _missionsLogic.PostMission(mission);
+                return Ok(NewMission);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError);
+            }
         }
 
         // DELETE: api/Missions/5
-        [HttpDelete("{id}")]
+        [HttpPost("{id}")]
+        [Route("~/api/Missions/DeleteMission/{id}")]
         public async Task<IActionResult> DeleteMission(int id)
         {
-            var mission = await _context.Missions.FindAsync(id);
-            if (mission == null)
+            try
             {
-                return NotFound();
+                var mission = await _missionsLogic.DeleteMission(id);
+                if (mission == false)
+                {
+                    return Ok("Mission Deleted Filled");
+                }
+
+                return Ok("Mission Deleted success");
             }
-
-            _context.Missions.Remove(mission);
-            await _context.SaveChangesAsync();
-
-            return NoContent();
+            catch (Exception ex)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError);
+            }
         }
 
         private bool MissionExists(int id)
         {
-            return _context.Missions.Any(e => e.Id == id);
+            try
+            {
+                var MissionExist = _missionsLogic.MissionExists(id);
+                return MissionExist;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
         }
     }
 }

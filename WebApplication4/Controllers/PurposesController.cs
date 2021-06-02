@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using GenieMistro.Models;
 using Microsoft.AspNetCore.Cors;
+using GenieMistro.BL;
 
 namespace GenieMistro.Controllers
 {
@@ -16,50 +17,66 @@ namespace GenieMistro.Controllers
     public class PurposesController : ControllerBase
     {
         private readonly genieDBContext _context;
-
+        PurposesLogic _purposesLogic;
         public PurposesController(genieDBContext context)
         {
             _context = context;
+            _purposesLogic = new PurposesLogic(_context);
         }
 
         // GET: api/Purposes
-        [HttpGet]
+       // [HttpGet]
+       [HttpPost]
         public async Task<ActionResult<IEnumerable<Purpose>>> GetPurposes()
         {
-            return await _context.Purposes.ToListAsync();
+            try
+            {
+                var purposes = await _purposesLogic.GetPurposes();
+                return purposes;
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError);
+            }
         }
 
         // GET: api/Purposes/5
-        [HttpGet("{id}")]
+        //[HttpGet("{id}")]
+        [HttpPost("{id}")]
         public async Task<ActionResult<Purpose>> GetPurpose(int id)
         {
-            var purpose = await _context.Purposes.FindAsync(id);
-
-            if (purpose == null)
+            try
             {
-                return NotFound();
-            }
+                var purpose = await _purposesLogic.GetPurpose(id);
 
-            return purpose;
+                if (purpose == null)
+                {
+                    return NotFound();
+                }
+
+                return purpose;
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError);
+            }
         }
 
         // PUT: api/Purposes/5
-        // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
-        [HttpPut("{id}")]
+      //  [HttpPut("{id}")]
+      [HttpPost("{id}")]
         public async Task<IActionResult> PutPurpose(int id, Purpose purpose)
         {
-            if (id != purpose.Id)
-            {
-                return BadRequest();
-            }
-
-            _context.Entry(purpose).State = EntityState.Modified;
-
             try
             {
-                await _context.SaveChangesAsync();
+                if (id != purpose.Id)
+                {
+                    return BadRequest();
+                }
+                var comAss = await _purposesLogic.PutPurpose(id, purpose);
+                return Ok(purpose);
             }
-            catch (DbUpdateConcurrencyException)
+            catch (DbUpdateConcurrencyException ex)
             {
                 if (!PurposeExists(id))
                 {
@@ -67,43 +84,64 @@ namespace GenieMistro.Controllers
                 }
                 else
                 {
-                    throw;
+                    throw ex;
                 }
             }
+            catch (Exception ex)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError);
+            }
 
-            return NoContent();
         }
 
-        // POST: api/Purposes
-       
+        // POST: api/Purposes       
         [HttpPost]
-        public async Task<ActionResult<Purpose>> PostPurpose(Purpose purpose)
+        public async Task< IActionResult> PostPurpose(Purpose purpose)
         {
-            _context.Purposes.Add(purpose);
-            await _context.SaveChangesAsync();
-
-            return CreatedAtAction("GetPurpose", new { id = purpose.Id }, purpose);
+            try
+            {
+                var NewPurpose =await _purposesLogic.PostPurpose(purpose);
+                return Ok(NewPurpose);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError);
+            }
         }
 
         // DELETE: api/Purposes/5
-        [HttpDelete("{id}")]
+        [HttpPost("{id}")]
         public async Task<IActionResult> DeletePurpose(int id)
         {
-            var purpose = await _context.Purposes.FindAsync(id);
-            if (purpose == null)
+            try
             {
-                return NotFound();
+                var purpose = await _purposesLogic.DeletePurpose(id);
+                if (purpose == false)
+                {
+                    return Ok("Purpose Deleted Filled");
+                }
+
+                return Ok("Purpose Deleted success");
             }
-
-            _context.Purposes.Remove(purpose);
-            await _context.SaveChangesAsync();
-
-            return NoContent();
+            catch (Exception ex)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError);
+            }
         }
 
+        // check if Purpose Exist
         private bool PurposeExists(int id)
         {
-            return _context.Purposes.Any(e => e.Id == id);
+            try
+            {
+                var PurposeExist = _purposesLogic.PurposeExists(id);
+                return PurposeExist;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+
         }
     }
 }

@@ -1,7 +1,9 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http;
+using System.Net.Http.Headers;
 using System.Net.Mail;
 using System.Threading.Tasks;
 using System.Web.Http.ModelBinding;
@@ -13,6 +15,8 @@ namespace GenieMistro.Services
         public int Id { get; set; }
         public string Name { get; set; }
         public string Domain { get; set; }
+        public string ConnectionString { get; set; }
+
 
         public String GetDatabase(String Email)
         {
@@ -50,6 +54,68 @@ namespace GenieMistro.Services
             
             return landLoardDB.Name;
         }
+        public async Task<string> GetConnectionStringIDAsync(String Email)
+        {
+            MailAddress address = new System.Net.Mail.MailAddress(Email);
+
+            string host = address.Host;
+
+            string Baseurl = "https://localhost:44336/";
+            landLoard Db = new landLoard();
+            var client = new HttpClient();
+
+            client.BaseAddress = new Uri(Baseurl);
+            client.DefaultRequestHeaders.Clear();
+            client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+            HttpResponseMessage Res = await client.GetAsync("api/TbLandLoards/GetTbLandLoard?domain=" + host.ToString());
+
+            if (Res.IsSuccessStatusCode)
+            {
+                var Response = Res.Content.ReadAsStringAsync().Result;
+                Db = JsonConvert.DeserializeObject<landLoard>(Response);
+                String response = Db.Id.ToString();
+                return response;
+            }
+
+
+
+           
+           
+            return null;
+        }
+        public async Task<landLoard> CreateDbConnectionString(landLoard landLoard )
+        {
+            landLoard ls = new landLoard();
+            landLoard landLoard1 = new landLoard();
+            //  landLoard.Domain = "mohamed.com";
+            //  landLoard.Name = "mohamdDb";
+
+
+            string Baseurl = "https://localhost:44336/";
+
+            var client = new HttpClient();
+
+            client.BaseAddress = new Uri(Baseurl);
+            client.DefaultRequestHeaders.Clear();
+            client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+            //  HttpResponseMessage Res = await client.GetAsync("/api/TbLandLoards/GetTbLandLoards");
+            var Res = client.PostAsJsonAsync<landLoard>("api/TbLandLoards/PostTbLandLoard", landLoard);
+            Res.Wait();
+            var results = Res.Result;
+
+
+
+
+            if (results.IsSuccessStatusCode)
+            {
+                var EmpResponse = results.Content.ReadAsStringAsync().Result;
+                ls = JsonConvert.DeserializeObject<landLoard>(EmpResponse);
+                return ls;
+            }
+            return null;
+        }
+
+
 
     }
 }

@@ -1,4 +1,4 @@
-﻿using System;
+﻿ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using GenieMistro.Models;
 using Microsoft.AspNetCore.Cors;
+using GenieMistro.BL;
 
 namespace GenieMistro.Controllers
 {
@@ -16,74 +17,72 @@ namespace GenieMistro.Controllers
     public class TbEmployeesController : ControllerBase
     {
         private readonly genieDBContext _context;
+        TbEmployeesLogic _tbEmployeesLogic;
 
         public TbEmployeesController(genieDBContext context)
         {
             _context = context;
+            _tbEmployeesLogic = new TbEmployeesLogic(_context);
         }
 
         // GET: api/TbEmployees
-        [HttpGet]
+        //[HttpGet]
+        [HttpPost]
         [EnableCors("AllowOrigin")]
         [Route("~/api/TbEmployees/GetTbEmployees")]
         public async Task<ActionResult<IEnumerable<TbEmployee>>> GetTbEmployees()
         {
-            List<TbEmployee> es2 = new List<TbEmployee>();
-            List<TbEmployee> es = new List<TbEmployee>();
-
-            es = await _context.TbEmployees.ToListAsync();
-            foreach (TbEmployee t in es )
+            try
             {
-                TbEmployee temp = new TbEmployee();
-                temp.EmpId = t.EmpId;
-                temp.EmpName = t.EmpName;
-                temp.EmpEmail = t.EmpEmail;
-                temp.ManagerId = t.ManagerId;
-                temp.EmpTitle = t.EmpTitle;
-                temp.EmpTitleLevel = t.EmpTitleLevel;
-                
-                es2.Add(temp);
+                var tbEmployees = await _tbEmployeesLogic.GetTbEmployees();
+                return tbEmployees;
             }
-           
-            return es2;
+            catch (Exception ex)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError);
+            }
         }
 
         // GET: api/TbEmployees/5
-        [HttpGet("{id}")]
         [EnableCors("AllowOrigin")]
         [Route("~/api/TbEmployees/GetTbEmployee/{id}")]
-
+        [HttpPost("{id}")]
         public async Task<ActionResult<TbEmployee>> GetTbEmployee(int id)
         {
-            var tbEmployee = await _context.TbEmployees.FindAsync(id);
-
-            if (tbEmployee == null)
+            try
             {
-                return NotFound();
+                var tbEmployee = await _tbEmployeesLogic.GetTbEmployee(id);
+
+                if (tbEmployee == null)
+                {
+                    return NotFound();
+                }
+
+                return tbEmployee;
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError);
             }
 
-            return tbEmployee;
         }
 
         // PUT: api/TbEmployees/5
-        // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
-        [HttpPut("{id}")]
         [EnableCors("AllowOrigin")]
         [Route("~/api/TbEmployees/PutTbEmployee/{id}")]
+        [HttpPost("{id}")]
         public async Task<ActionResult<TbEmployee>> PutTbEmployee(int id, TbEmployee tbEmployee)
         {
-            if (id != tbEmployee.EmpId)
-            {
-                return BadRequest("This ID not found");
-            }
-
-            _context.Entry(tbEmployee).State = EntityState.Modified;
-
             try
             {
-                await _context.SaveChangesAsync();
+                if (id != tbEmployee.Id)
+                {
+                    return BadRequest();
+                }
+                var comAss = await _tbEmployeesLogic.PutTbEmployee(id, tbEmployee);
+                return Ok(tbEmployee);
             }
-            catch (DbUpdateConcurrencyException)
+            catch (DbUpdateConcurrencyException ex)
             {
                 if (!TbEmployeeExists(id))
                 {
@@ -91,42 +90,52 @@ namespace GenieMistro.Controllers
                 }
                 else
                 {
-                    throw;
+                    throw ex;
                 }
             }
-
-            return await _context.TbEmployees.FindAsync(id);
+            catch (Exception ex)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError);
+            }
         }
 
         // POST: api/TbEmployees
-        // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
         [EnableCors("AllowOrigin")]
         [Route("~/api/TbEmployees/PostTbEmployee")]
         public async Task<ActionResult<TbEmployee>> PostTbEmployee(TbEmployee tbEmployee)
         {
-            _context.TbEmployees.Add(tbEmployee);
-            await _context.SaveChangesAsync();
-
-            return CreatedAtAction("GetTbEmployee", new { id = tbEmployee.EmpId }, tbEmployee);
+            try
+            {
+                var NewTbEmployee = await _tbEmployeesLogic.PostTbEmployee(tbEmployee);
+                return Ok(NewTbEmployee);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError);
+            }
         }
 
         // DELETE: api/TbEmployees/5
-        [HttpDelete("{id}")]
+        [HttpPost("{id}")]
         [EnableCors("AllowOrigin")]
         [Route("~/api/TbEmployees/DeleteTbEmployee/{id}")]
         public async Task<IActionResult> DeleteTbEmployee(int id)
         {
-            var tbEmployee = await _context.TbEmployees.FindAsync(id);
-            if (tbEmployee == null)
+            try
             {
-                return NotFound();
+                var Employee = await _tbEmployeesLogic.DeleteTbEmployee(id);
+                if (Employee == false)
+                {
+                    return Ok("Employee Deleted Filled");
+                }
+
+                return Ok("Employee Deleted success");
             }
-
-            _context.TbEmployees.Remove(tbEmployee);
-            await _context.SaveChangesAsync();
-
-            return NoContent();
+            catch (Exception ex)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError);
+            }
         }
 
 
@@ -134,17 +143,36 @@ namespace GenieMistro.Controllers
        
         [EnableCors("AllowOrigin")]
         [Route("~/api/TbEmployees/GetLevelsCount")]
-        [HttpGet]
+       [HttpPost]
         public  int GetLevelsCount()
         {
-            int max = 0;
-            max = (int)_context.TbEmployees.Max(e => e.EmpTitleLevel);
-          
-            return max; ;
+            try
+            {
+                var max = _tbEmployeesLogic.GetLevelsCount();
+                return max;
+            }
+            catch (Exception ex)
+            {
+
+                throw ex;
+            }
         }
+
+        // check if TbEmployees Exist
         private bool TbEmployeeExists(int id)
         {
-            return _context.TbEmployees.Any(e => e.EmpId == id);
+            try
+            {
+                var tbEmployeesExist = _tbEmployeesLogic.TbEmployeeExists(id);
+                return tbEmployeesExist;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
         }
+
+
+
     }
 }

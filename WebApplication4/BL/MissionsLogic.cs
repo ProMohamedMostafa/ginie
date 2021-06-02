@@ -1,0 +1,76 @@
+﻿using GenieMistro.Models;
+using Microsoft.EntityFrameworkCore;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
+
+namespace GenieMistro.BL
+{
+    public class MissionsLogic
+    {
+        private readonly genieDBContext _context;
+        public MissionsLogic(genieDBContext context)
+        {
+            _context = context;
+        }
+
+        // get all Missions 
+        public async Task<List<Mission>> GetMissions()
+        {
+            var missions = await _context.Mission.ToListAsync();
+            return missions;
+        }
+
+        // Get Mission with id
+        public async Task<Mission> GetMission(int id)
+        {
+            var mission = await _context.Mission.FindAsync(id);
+            return mission;
+        }
+
+        // Update Mission
+        public async Task<bool> PutMission(int id, Mission mission)
+        {
+            //_context.Entry(mission).State = EntityState.Modified;
+            _context.Mission.Update(mission);
+            await _context.SaveChangesAsync();
+
+            return true;
+        }
+
+        // create new  Mission
+        public async Task<Mission> PostMission(Mission mission)
+        {
+            await _context.Mission.AddAsync(mission);
+            await _context.SaveChangesAsync();
+            return mission;
+        }
+
+        // Delete Mission with id
+        public async Task<bool> DeleteMission(int id)
+        {
+            var mission = await _context.Mission.FindAsync(id);
+            if (mission == null)
+            {
+                return false;
+            }
+            _context.Mission.Remove(mission);
+            await _context.SaveChangesAsync();
+            return true;
+
+        }
+
+        // check if Mission Exist
+        public bool MissionExists(int id)
+        {
+            var MissionExist = _context.Mission.Any(e => e.Id == id);
+            if (MissionExist == false)
+            {
+                return false;
+            }
+            return true;
+        }
+
+    }
+}
