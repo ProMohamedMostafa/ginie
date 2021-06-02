@@ -26,7 +26,9 @@ namespace GenieMistro.Controllers
 
         // GET: api/Competencies
        [HttpPost]
-        public async Task<ActionResult<IEnumerable<Competency>>> GetCompetencies()
+       [EnableCors("AllowOrigin")]
+        [Route("~/api/Competencies/Competencies")]
+        public async Task<ActionResult<IEnumerable<Competency>>> Competencies()
         {
             try
             {

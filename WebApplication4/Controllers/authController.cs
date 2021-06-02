@@ -38,7 +38,7 @@ namespace GenieMistro.Controllers
             this.UserManager = _userManager;
             this._configuration = _configuration;
         }
-
+            
         [HttpPost]
 
         public async Task<IActionResult> login([FromBody] LoginModel model)

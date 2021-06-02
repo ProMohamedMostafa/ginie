@@ -158,3 +158,8 @@ D:\BusinessCLinic\GenieGitHub\Genie\ginie\WebApplication4\obj\Release\net5.0\Gen
 D:\BusinessCLinic\GenieGitHub\Genie\ginie\WebApplication4\obj\Release\net5.0\ref\GenieMistro.dll
 D:\BusinessCLinic\GenieGitHub\Genie\ginie\WebApplication4\obj\Release\net5.0\GenieMistro.pdb
 D:\BusinessCLinic\GenieGitHub\Genie\ginie\WebApplication4\obj\Release\net5.0\GenieMistro.genruntimeconfig.cache
+D:\BusinessCLinic\GenieGitHub\Genie\ginie\WebApplication4\obj\Release\net5.0\Razor\Views\Purposes1\Create.cshtml.g.cs
+D:\BusinessCLinic\GenieGitHub\Genie\ginie\WebApplication4\obj\Release\net5.0\Razor\Views\Purposes1\Delete.cshtml.g.cs
+D:\BusinessCLinic\GenieGitHub\Genie\ginie\WebApplication4\obj\Release\net5.0\Razor\Views\Purposes1\Details.cshtml.g.cs
+D:\BusinessCLinic\GenieGitHub\Genie\ginie\WebApplication4\obj\Release\net5.0\Razor\Views\Purposes1\Edit.cshtml.g.cs
+D:\BusinessCLinic\GenieGitHub\Genie\ginie\WebApplication4\obj\Release\net5.0\Razor\Views\Purposes1\Index.cshtml.g.cs

@@ -18,14 +18,14 @@ namespace GenieMistro.BL
         // get all Competencies 
         public async Task<List<Competency>> GetCompetencies()
         {
-            var competencies = await _context.Competency.ToListAsync();
+            var competencies = await _context.Competencies.ToListAsync();
             return competencies;
         }
 
         // Get Competency with id
         public async Task<Competency> GetCompetency(int id)
         {
-            var competency = await _context.Competency.FindAsync(id);
+            var competency = await _context.Competencies.FindAsync(id);
             return competency;
         }
 
@@ -33,7 +33,7 @@ namespace GenieMistro.BL
         public async Task<bool> PutCompetency(int id, Competency competency)
         {
             //_context.Entry(competency).State = EntityState.Modified;
-            _context.Competency.Update(competency);
+            _context.Competencies.Update(competency);
             await _context.SaveChangesAsync();
 
             return true;
@@ -42,7 +42,7 @@ namespace GenieMistro.BL
         // create new  Competency
         public async Task<Competency> PostCompetency(Competency competency)
         {
-            await _context.Competency.AddAsync(competency);
+            await _context.Competencies.AddAsync(competency);
             await _context.SaveChangesAsync();
             return competency;
         }
@@ -50,12 +50,12 @@ namespace GenieMistro.BL
         // Delete Competency with id
         public async Task<bool> DeleteCompetency(int id)
         {
-            var competency = await _context.Competency.FindAsync(id);
+            var competency = await _context.Competencies.FindAsync(id);
             if (competency == null)
             {
                 return false;
             }
-            _context.Competency.Remove(competency);
+            _context.Competencies.Remove(competency);
             await _context.SaveChangesAsync();
             return true;
 
@@ -64,7 +64,7 @@ namespace GenieMistro.BL
         // check if Competency Exist
         public bool CompetencyExists(int id)
         {
-            var CompetencyExists = _context.Competency.Any(e => e.Id == id);
+            var CompetencyExists = _context.Competencies.Any(e => e.Id == id);
             if (CompetencyExists == false)
             {
                 return false;

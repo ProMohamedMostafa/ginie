@@ -10,8 +10,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace GenieMistro.Migrations
 {
     [DbContext(typeof(genieDBContext))]
-    [Migration("20210601153732_initial")]
-    partial class initial
+    [Migration("20210602182352_first")]
+    partial class first
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {

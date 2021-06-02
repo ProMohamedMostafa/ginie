@@ -18,14 +18,14 @@ namespace GenieMistro.BL
         // get all Purposes 
         public async Task<List<Purpose>> GetPurposes()
         {
-            var Purpose = await _context.Purpose.ToListAsync();
+            var Purpose = await _context.Purposes.ToListAsync();
             return Purpose;
         }
 
         // Get Purpose with id
         public async Task<Purpose> GetPurpose(int id)
         {
-            var Purpose = await _context.Purpose.FindAsync(id);
+            var Purpose = await _context.Purposes.FindAsync(id);
             return Purpose;
         }
 
@@ -33,7 +33,7 @@ namespace GenieMistro.BL
         public async Task<bool> PutPurpose(int id, Purpose purpose)
         {
             //_context.Entry(purpose).State = EntityState.Modified;
-            _context.Purpose.Update(purpose);
+            _context.Purposes.Update(purpose);
             await _context.SaveChangesAsync();
 
             return true;
@@ -42,7 +42,7 @@ namespace GenieMistro.BL
         // create new  Purpose
         public async Task<Purpose> PostPurpose(Purpose purpose)
         {
-            await _context.Purpose.AddAsync(purpose);
+            await _context.Purposes.AddAsync(purpose);
             await _context.SaveChangesAsync();
             return purpose;
         }
@@ -50,12 +50,12 @@ namespace GenieMistro.BL
         // Delete Purpose with id
         public async Task<bool> DeletePurpose(int id)
         {
-            var Purpose = await _context.Purpose.FindAsync(id);
+            var Purpose = await _context.Purposes.FindAsync(id);
             if (Purpose == null)
             {
                 return false;
             }
-            _context.Purpose.Remove(Purpose);
+            _context.Purposes.Remove(Purpose);
             await _context.SaveChangesAsync();
             return true;
 
@@ -64,7 +64,7 @@ namespace GenieMistro.BL
         // check if Purpose Exist
         public bool PurposeExists(int id)
         {
-            var PurposeExist = _context.Purpose.Any(e => e.Id == id);
+            var PurposeExist = _context.Purposes.Any(e => e.Id == id);
             if (PurposeExist == false)
             {
                 return false;

@@ -21,7 +21,7 @@ namespace GenieMistro.Models
         public virtual DbSet<ActionPlan> ActionPlan { get; set; }
         public virtual DbSet<BusinessAccount> BusinessAccount { get; set; }
         public virtual DbSet<CompAssign> CompAssign { get; set; }
-        public virtual DbSet<Competency> Competency { get; set; }
+        public virtual DbSet<Competency> Competencies { get; set; }
         public virtual DbSet<Indicator> Indicator { get; set; }
         public virtual DbSet<Mission> Mission { get; set; }
         public virtual DbSet<MissionDept> MissionDept { get; set; }
@@ -29,7 +29,7 @@ namespace GenieMistro.Models
         public virtual DbSet<Objective> Objective { get; set; }
         public virtual DbSet<ObjectiveEmployee> ObjectiveEmployee { get; set; }
         public virtual DbSet<Project> Project { get; set; }
-        public virtual DbSet<Purpose> Purpose { get; set; }
+        public virtual DbSet<Purpose> Purposes { get; set; }
         public virtual DbSet<StratigicObjective> StratigicObjective { get; set; }
         public virtual DbSet<TbEmployee> TbEmployee { get; set; }
         public virtual DbSet<Vision> Vision { get; set; }
