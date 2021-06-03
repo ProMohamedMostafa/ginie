@@ -27,6 +27,7 @@ namespace GenieMistro.Controllers
 
         // GET: api/Visions
         [HttpPost]
+     
         public async Task<ActionResult<IEnumerable<Vision>>> GetVisions()
         {
             try
@@ -42,6 +43,7 @@ namespace GenieMistro.Controllers
 
         // GET: api/Visions/5
         [HttpPost("{id}")]
+       
         public async Task<ActionResult<Vision>> GetVision(int id)
         {
             try
@@ -63,6 +65,7 @@ namespace GenieMistro.Controllers
 
         // PUT: api/Visions/5
         [HttpPost("{id}")]
+        
         public async Task<IActionResult> PutVision(int id, Vision vision)
         {
             try

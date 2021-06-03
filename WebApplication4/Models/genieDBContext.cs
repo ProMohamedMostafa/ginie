@@ -32,7 +32,7 @@ namespace GenieMistro.Models
         public virtual DbSet<Purpose> Purposes { get; set; }
         public virtual DbSet<StratigicObjective> StratigicObjective { get; set; }
         public virtual DbSet<TbEmployee> TbEmployees { get; set; }
-        public virtual DbSet<Vision> Vision { get; set; }
+        public virtual DbSet<Vision> Visions { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
