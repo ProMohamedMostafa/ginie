@@ -18,14 +18,14 @@ namespace GenieMistro.BL
         // get all tbEmployees 
         public async Task<List<TbEmployee>> GetTbEmployees()
         {
-            var tbEmployees = await _context.TbEmployee.ToListAsync();
+            var tbEmployees = await _context.TbEmployees.ToListAsync();
             return tbEmployees;
         }
 
         // Get tbEmployee with id
         public async Task<TbEmployee> GetTbEmployee(int id)
         {
-            var tbEmployee = await _context.TbEmployee.FindAsync(id);
+            var tbEmployee = await _context.TbEmployees.FindAsync(id);
             return tbEmployee;
         }
 
@@ -33,7 +33,7 @@ namespace GenieMistro.BL
         public async Task<bool> PutTbEmployee(int id, TbEmployee tbEmployee)
         {
             //_context.Entry(tbEmployee).State = EntityState.Modified;
-            _context.TbEmployee.Update(tbEmployee);
+            _context.TbEmployees.Update(tbEmployee);
             await _context.SaveChangesAsync();
 
             return true;
@@ -42,7 +42,7 @@ namespace GenieMistro.BL
         // create new  TbEmployee
         public async Task<TbEmployee> PostTbEmployee(TbEmployee tbEmployee)
         {
-            await _context.TbEmployee.AddAsync(tbEmployee);
+            await _context.TbEmployees.AddAsync(tbEmployee);
             await _context.SaveChangesAsync();
             return tbEmployee;
         }
@@ -50,12 +50,12 @@ namespace GenieMistro.BL
         // Delete TbEmployee with id
         public async Task<bool> DeleteTbEmployee(int id)
         {
-            var tbEmployee = await _context.TbEmployee.FindAsync(id);
+            var tbEmployee = await _context.TbEmployees.FindAsync(id);
             if (tbEmployee == null)
             {
                 return false;
             }
-            _context.TbEmployee.Remove(tbEmployee);
+            _context.TbEmployees.Remove(tbEmployee);
             await _context.SaveChangesAsync();
             return true;
 
@@ -64,7 +64,7 @@ namespace GenieMistro.BL
         // check if TbEmployees Exist
         public bool TbEmployeeExists(int id)
         {
-            var TbEmployeeExist = _context.TbEmployee.Any(e => e.Id == id);
+            var TbEmployeeExist = _context.TbEmployees.Any(e => e.Id == id);
             if (TbEmployeeExist == false)
             {
                 return false;
@@ -76,7 +76,7 @@ namespace GenieMistro.BL
         public int GetLevelsCount()
         {
             int max = 0;
-            max = (int)_context.TbEmployee.Max(e => e.EmpTitleLevel);
+            max = (int)_context.TbEmployees.Max(e => e.EmpTitleLevel);
 
             return max;
         }

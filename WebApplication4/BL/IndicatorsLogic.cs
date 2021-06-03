@@ -18,14 +18,14 @@ namespace GenieMistro.BL
         // get all Indicators 
         public async Task<List<Indicator>> GetIndicators()
         {
-            var indicators = await _context.Indicator.ToListAsync();
+            var indicators = await _context.Indicators.ToListAsync();
             return indicators;
         }
 
         // Get Indicator with id
         public async Task<Indicator> GetIndicator(int id)
         {
-            var indicator = await _context.Indicator.FindAsync(id);
+            var indicator = await _context.Indicators.FindAsync(id);
             return indicator;
         }
 
@@ -33,7 +33,7 @@ namespace GenieMistro.BL
         public async Task<bool> PutIndicator(int id, Indicator indicator)
         {
             //_context.Entry(indicator).State = EntityState.Modified;
-            _context.Indicator.Update(indicator);
+            _context.Indicators.Update(indicator);
             await _context.SaveChangesAsync();
 
             return true;
@@ -42,7 +42,7 @@ namespace GenieMistro.BL
         // create new  Indicator
         public async Task<Indicator> PostIndicator(Indicator indicator)
         {
-            await _context.Indicator.AddAsync(indicator);
+            await _context.Indicators.AddAsync(indicator);
             await _context.SaveChangesAsync();
             return indicator;
         }
@@ -50,12 +50,12 @@ namespace GenieMistro.BL
         // Delete Indicator with id
         public async Task<bool> DeleteIndicator(int id)
         {
-            var indicator = await _context.Indicator.FindAsync(id);
+            var indicator = await _context.Indicators.FindAsync(id);
             if (indicator == null)
             {
                 return false;
             }
-            _context.Indicator.Remove(indicator);
+            _context.Indicators.Remove(indicator);
             await _context.SaveChangesAsync();
             return true;
 
@@ -64,7 +64,7 @@ namespace GenieMistro.BL
         // check if Indicator Exist
         public bool IndicatorExists(int id)
         {
-            var IndicatorExist = _context.Indicator.Any(e => e.Id == id);
+            var IndicatorExist = _context.Indicators.Any(e => e.Id == id);
             if (IndicatorExist == false)
             {
                 return false;

@@ -65,13 +65,13 @@ namespace WebApplication4.Controllers
         {
             try
             {
-                if (_context.BusinessAccount.Any(e => e.Email == businessAccount.Email))
+                if (_context.BusinessAccounts.Any(e => e.Email == businessAccount.Email))
                     return StatusCode(500, "Email is already exist");
-                if (_context.BusinessAccount.Any(e => e.BaWebSite == businessAccount.BaWebSite))
+                if (_context.BusinessAccounts.Any(e => e.BaWebSite == businessAccount.BaWebSite))
                     return StatusCode(500, " WebSite is already exist");
-                if (_context.BusinessAccount.Any(e => e.BPhone == businessAccount.BPhone))
+                if (_context.BusinessAccounts.Any(e => e.BPhone == businessAccount.BPhone))
                     return StatusCode(500, " Phone is already exist");
-                if (_context.BusinessAccount.Any(e => e.CompanyName == businessAccount.CompanyName))
+                if (_context.BusinessAccounts.Any(e => e.CompanyName == businessAccount.CompanyName))
                     return StatusCode(500, " Company Name is already exist");
 
 

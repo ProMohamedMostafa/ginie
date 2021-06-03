@@ -18,20 +18,20 @@ namespace GenieMistro.Models
         {
         }
 
-        public virtual DbSet<ActionPlan> ActionPlan { get; set; }
-        public virtual DbSet<BusinessAccount> BusinessAccount { get; set; }
-        public virtual DbSet<CompAssign> CompAssign { get; set; }
+        public virtual DbSet<ActionPlan> ActionPlans { get; set; }
+        public virtual DbSet<BusinessAccount> BusinessAccounts { get; set; }
+        public virtual DbSet<CompAssign> CompAssigns { get; set; }
         public virtual DbSet<Competency> Competencies { get; set; }
-        public virtual DbSet<Indicator> Indicator { get; set; }
-        public virtual DbSet<Mission> Mission { get; set; }
+        public virtual DbSet<Indicator> Indicators { get; set; }
+        public virtual DbSet<Mission> Missions { get; set; }
         public virtual DbSet<MissionDept> MissionDept { get; set; }
-        public virtual DbSet<MissionMissionDept> MissionMissionDept { get; set; }
-        public virtual DbSet<Objective> Objective { get; set; }
+        public virtual DbSet<MissionMissionDept> MissionMissionDepts { get; set; }
+        public virtual DbSet<Objective> Objectives { get; set; }
         public virtual DbSet<ObjectiveEmployee> ObjectiveEmployee { get; set; }
-        public virtual DbSet<Project> Project { get; set; }
+        public virtual DbSet<Project> Projects { get; set; }
         public virtual DbSet<Purpose> Purposes { get; set; }
         public virtual DbSet<StratigicObjective> StratigicObjective { get; set; }
-        public virtual DbSet<TbEmployee> TbEmployee { get; set; }
+        public virtual DbSet<TbEmployee> TbEmployees { get; set; }
         public virtual DbSet<Vision> Vision { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)

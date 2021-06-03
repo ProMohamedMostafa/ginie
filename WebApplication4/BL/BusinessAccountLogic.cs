@@ -24,7 +24,7 @@ namespace GenieMistro.BL
         // check if account Exist
         public bool BusinessAccountExists(int id)
         {
-                var AccountExist = _context.BusinessAccount.Any(e => e.Id == id);
+                var AccountExist = _context.BusinessAccounts.Any(e => e.Id == id);
                 if (AccountExist == false)
                 {
                     return false;
@@ -35,12 +35,12 @@ namespace GenieMistro.BL
         // Delete Account
         public async Task<bool> DeleteBusinessAccount(int id)
         {
-                var businessAccount = await _context.BusinessAccount.FindAsync(id);
+                var businessAccount = await _context.BusinessAccounts.FindAsync(id);
                 if (businessAccount == null)
                 {
                     return false;
                 }
-                _context.BusinessAccount.Remove(businessAccount);
+                _context.BusinessAccounts.Remove(businessAccount);
                 await _context.SaveChangesAsync();
                 return true;
 
@@ -49,7 +49,7 @@ namespace GenieMistro.BL
         // get all Accounts 
         public async Task<List<BusinessAccount>> Get()
         {
-                var Accounts = await _context.BusinessAccount.ToListAsync();
+                var Accounts = await _context.BusinessAccounts.ToListAsync();
                 return Accounts;
         }
 
@@ -75,7 +75,7 @@ namespace GenieMistro.BL
                 Db = JsonConvert.DeserializeObject<landLoard>(Response);
             }
 
-            List<BusinessAccount> bs = _context.BusinessAccount.ToList();
+            List<BusinessAccount> bs = _context.BusinessAccounts.ToList();
             BusinessAccount businessAccount = new BusinessAccount();
             foreach (BusinessAccount b in bs)
             {
@@ -100,7 +100,7 @@ namespace GenieMistro.BL
             ld.Domain = host;
             ld.Name = businessAccount.CompanyName + "DB";
 
-            await _context.BusinessAccount.AddAsync(businessAccount);
+            await _context.BusinessAccounts.AddAsync(businessAccount);
             await _context.SaveChangesAsync();
             postLandLord(ld);
             return businessAccount;
@@ -143,7 +143,7 @@ namespace GenieMistro.BL
         public async Task<bool> PutBusinessAccount(int id, BusinessAccount businessAccount)
         {
             //_context.Entry(businessAccount).State = EntityState.Modified;
-            _context.BusinessAccount.Update(businessAccount);
+            _context.BusinessAccounts.Update(businessAccount);
             await _context.SaveChangesAsync();
 
             return true;

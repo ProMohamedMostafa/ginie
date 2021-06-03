@@ -18,14 +18,14 @@ namespace GenieMistro.BL
         // get all Missions 
         public async Task<List<Mission>> GetMissions()
         {
-            var missions = await _context.Mission.ToListAsync();
+            var missions = await _context.Missions.ToListAsync();
             return missions;
         }
 
         // Get Mission with id
         public async Task<Mission> GetMission(int id)
         {
-            var mission = await _context.Mission.FindAsync(id);
+            var mission = await _context.Missions.FindAsync(id);
             return mission;
         }
 
@@ -33,7 +33,7 @@ namespace GenieMistro.BL
         public async Task<bool> PutMission(int id, Mission mission)
         {
             //_context.Entry(mission).State = EntityState.Modified;
-            _context.Mission.Update(mission);
+            _context.Missions.Update(mission);
             await _context.SaveChangesAsync();
 
             return true;
@@ -42,7 +42,7 @@ namespace GenieMistro.BL
         // create new  Mission
         public async Task<Mission> PostMission(Mission mission)
         {
-            await _context.Mission.AddAsync(mission);
+            await _context.Missions.AddAsync(mission);
             await _context.SaveChangesAsync();
             return mission;
         }
@@ -50,12 +50,12 @@ namespace GenieMistro.BL
         // Delete Mission with id
         public async Task<bool> DeleteMission(int id)
         {
-            var mission = await _context.Mission.FindAsync(id);
+            var mission = await _context.Missions.FindAsync(id);
             if (mission == null)
             {
                 return false;
             }
-            _context.Mission.Remove(mission);
+            _context.Missions.Remove(mission);
             await _context.SaveChangesAsync();
             return true;
 
@@ -64,7 +64,7 @@ namespace GenieMistro.BL
         // check if Mission Exist
         public bool MissionExists(int id)
         {
-            var MissionExist = _context.Mission.Any(e => e.Id == id);
+            var MissionExist = _context.Missions.Any(e => e.Id == id);
             if (MissionExist == false)
             {
                 return false;

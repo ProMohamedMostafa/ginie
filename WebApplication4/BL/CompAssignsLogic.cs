@@ -19,13 +19,13 @@ namespace GenieMistro.BL
         // get all CompAssigns 
         public async Task<List<CompAssign>> GetCompAssigns()
         {
-            var compAssign = await _context.CompAssign.ToListAsync();
+            var compAssign = await _context.CompAssigns.ToListAsync();
             return compAssign;
         }
         // Get CompAssign with id
         public async Task<CompAssign> GetCompAssign(int id)
         {
-            var compAssign = await _context.CompAssign.FindAsync(id);
+            var compAssign = await _context.CompAssigns.FindAsync(id);
             return compAssign;
         }
 
@@ -33,7 +33,7 @@ namespace GenieMistro.BL
         public async Task<bool> PutCompAssign(int id, CompAssign compAssign)
         {
             //_context.Entry(compAssign).State = EntityState.Modified;
-            _context.CompAssign.Update(compAssign);
+            _context.CompAssigns.Update(compAssign);
             await _context.SaveChangesAsync();
 
             return true;
@@ -42,19 +42,19 @@ namespace GenieMistro.BL
         // Post CompAssign
         public async Task<CompAssign> PostCompAssign(CompAssign compAssign)
         {
-            await _context.CompAssign.AddAsync(compAssign);
+            await _context.CompAssigns.AddAsync(compAssign);
             await _context.SaveChangesAsync();
             return compAssign;
         }
         // Delete CompAssign with id
         public async Task<bool> DeleteCompAssign(int id)
         {
-            var compAssign = await _context.CompAssign.FindAsync(id);
+            var compAssign = await _context.CompAssigns.FindAsync(id);
             if (compAssign == null)
             {
                 return false;
             }
-            _context.CompAssign.Remove(compAssign);
+            _context.CompAssigns.Remove(compAssign);
             await _context.SaveChangesAsync();
             return true;
 
@@ -63,7 +63,7 @@ namespace GenieMistro.BL
         // check if CompAssign Exist
         public bool CompAssignExists(int id)
         {
-            var CompAssignExist = _context.CompAssign.Any(e => e.Id == id);
+            var CompAssignExist = _context.CompAssigns.Any(e => e.Id == id);
             if (CompAssignExist == false)
             {
                 return false;
