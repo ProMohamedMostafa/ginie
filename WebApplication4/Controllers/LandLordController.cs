@@ -14,6 +14,7 @@ using System.Threading.Tasks;
 
 namespace GenieMistro.Controllers
 {
+    [EnableCors("AllowOrigin")]
     [Route("api/[controller]/[action]")]
     [ApiController]
     public class LandLordController : ControllerBase
@@ -50,17 +51,17 @@ namespace GenieMistro.Controllers
             try
             {
 
-                string id = await landLoard.GetConnectionStringIDAsync(email);
+                var id = await landLoard.GetConnectionStringIDAsync(email);
                 if (id != null)
                     return Ok(id);
-                else return NotFound();
+                else return Ok(-1);
             }
             catch
             {
                 return StatusCode(StatusCodes.Status500InternalServerError);
 
             }
-            return StatusCode(StatusCodes.Status500InternalServerError);
+         //   return StatusCode(StatusCodes.Status500InternalServerError);
 
 
         }

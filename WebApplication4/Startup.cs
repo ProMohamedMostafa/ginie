@@ -100,7 +100,7 @@ namespace WebApplication4
             app.UseHttpsRedirection();
 
             app.UseRouting();
-            app.UseCors(options => options.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader());
+            app.UseCors(options => options.WithOrigins("https://localhost:8080").AllowAnyMethod().AllowAnyHeader());
 
             app.UseAuthorization();
 

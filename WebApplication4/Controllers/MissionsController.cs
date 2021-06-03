@@ -7,11 +7,13 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using GenieMistro.Models;
 using GenieMistro.BL;
+using Microsoft.AspNetCore.Cors;
 
 namespace GenieMistro.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("[controller]/[action]")]
     [ApiController]
+    [EnableCors("AllowOrigin")]
     public class MissionsController : ControllerBase
     {
         private readonly genieDBContext _context;
