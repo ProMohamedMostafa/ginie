@@ -23,6 +23,18 @@
           "lib/netcoreapp3.1/AWSSDK.S3.dll": {}
         }
       },
+      "Grpc.Core.Api/2.38.0": {
+        "type": "package",
+        "dependencies": {
+          "System.Memory": "4.5.3"
+        },
+        "compile": {
+          "lib/netstandard2.0/Grpc.Core.Api.dll": {}
+        },
+        "runtime": {
+          "lib/netstandard2.0/Grpc.Core.Api.dll": {}
+        }
+      },
       "Humanizer.Core/2.8.26": {
         "type": "package",
         "compile": {
@@ -2641,6 +2653,26 @@
         "lib/netstandard2.0/AWSSDK.S3.xml",
         "tools/install.ps1",
         "tools/uninstall.ps1"
+      ]
+    },
+    "Grpc.Core.Api/2.38.0": {
+      "sha512": "hqQEPxKyCwoq75OXmWDKe/rw/O9YjgdfIYmU/w8r5itMmHJp0HNmfHdxVVW9DSRuA836NM93qYoMdbTYQfWOHA==",
+      "type": "package",
+      "path": "grpc.core.api/2.38.0",
+      "files": [
+        ".nupkg.metadata",
+        ".signature.p7s",
+        "grpc.core.api.2.38.0.nupkg.sha512",
+        "grpc.core.api.nuspec",
+        "lib/net45/Grpc.Core.Api.dll",
+        "lib/net45/Grpc.Core.Api.pdb",
+        "lib/net45/Grpc.Core.Api.xml",
+        "lib/netstandard1.5/Grpc.Core.Api.dll",
+        "lib/netstandard1.5/Grpc.Core.Api.pdb",
+        "lib/netstandard1.5/Grpc.Core.Api.xml",
+        "lib/netstandard2.0/Grpc.Core.Api.dll",
+        "lib/netstandard2.0/Grpc.Core.Api.pdb",
+        "lib/netstandard2.0/Grpc.Core.Api.xml"
       ]
     },
     "Humanizer.Core/2.8.26": {
@@ -8444,6 +8476,7 @@
   "projectFileDependencyGroups": {
     "net5.0": [
       "AWSSDK.S3 >= 3.7.0.32",
+      "Grpc.Core.Api >= 2.38.0",
       "Microsoft.AspNet.WebApi.Client >= 5.2.7",
       "Microsoft.AspNet.WebApi.Cors >= 5.2.7",
       "Microsoft.AspNetCore.Authentication.JwtBearer >= 5.0.6",
@@ -8504,6 +8537,10 @@
           "AWSSDK.S3": {
             "target": "Package",
             "version": "[3.7.0.32, )"
+          },
+          "Grpc.Core.Api": {
+            "target": "Package",
+            "version": "[2.38.0, )"
           },
           "Microsoft.AspNet.WebApi.Client": {
             "target": "Package",

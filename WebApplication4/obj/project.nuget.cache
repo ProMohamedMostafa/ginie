@@ -1,11 +1,12 @@
 {
   "version": 2,
-  "dgSpecHash": "Dp5adaeWrdwoHCal+/zAjLsY+y+V5ltlQ7rLiA0DleIQLb29KRh9LAzxSGhJ/LTtK9/Pa6TZKCcQu/p3u0x+KQ==",
+  "dgSpecHash": "sNnICCiybhIzi9DLnIj5cUFPV/2+PBDAZzexusXCd/0MtraxfYmCBz7Is8Yabw8EsfbCBfCx+5QqCtlXloZYqA==",
   "success": true,
   "projectFilePath": "D:\\BusinessCLinic\\GenieGitHub\\Genie\\ginie\\WebApplication4\\GenieMistro.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\Mohamed\\.nuget\\packages\\awssdk.core\\3.7.0.31\\awssdk.core.3.7.0.31.nupkg.sha512",
     "C:\\Users\\Mohamed\\.nuget\\packages\\awssdk.s3\\3.7.0.32\\awssdk.s3.3.7.0.32.nupkg.sha512",
+    "C:\\Users\\Mohamed\\.nuget\\packages\\grpc.core.api\\2.38.0\\grpc.core.api.2.38.0.nupkg.sha512",
     "C:\\Users\\Mohamed\\.nuget\\packages\\humanizer.core\\2.8.26\\humanizer.core.2.8.26.nupkg.sha512",
     "C:\\Users\\Mohamed\\.nuget\\packages\\microsoft.aspnet.cors\\5.2.7\\microsoft.aspnet.cors.5.2.7.nupkg.sha512",
     "C:\\Users\\Mohamed\\.nuget\\packages\\microsoft.aspnet.webapi.client\\5.2.7\\microsoft.aspnet.webapi.client.5.2.7.nupkg.sha512",

@@ -6,6 +6,7 @@ D:\BusinessCLinic\GenieGitHub\Genie\ginie\WebApplication4\obj\Release\net5.0\Pub
 D:\BusinessCLinic\GenieGitHub\Genie\ginie\WebApplication4\obj\Release\net5.0\PubTmp\Out\GenieMistro.pdb
 D:\BusinessCLinic\GenieGitHub\Genie\ginie\WebApplication4\obj\Release\net5.0\PubTmp\Out\AWSSDK.Core.dll
 D:\BusinessCLinic\GenieGitHub\Genie\ginie\WebApplication4\obj\Release\net5.0\PubTmp\Out\AWSSDK.S3.dll
+D:\BusinessCLinic\GenieGitHub\Genie\ginie\WebApplication4\obj\Release\net5.0\PubTmp\Out\Grpc.Core.Api.dll
 D:\BusinessCLinic\GenieGitHub\Genie\ginie\WebApplication4\obj\Release\net5.0\PubTmp\Out\Humanizer.dll
 D:\BusinessCLinic\GenieGitHub\Genie\ginie\WebApplication4\obj\Release\net5.0\PubTmp\Out\System.Web.Cors.dll
 D:\BusinessCLinic\GenieGitHub\Genie\ginie\WebApplication4\obj\Release\net5.0\PubTmp\Out\System.Net.Http.Formatting.dll

@@ -34,6 +34,7 @@
       "GenieMistro/1.0.0": {
         "dependencies": {
           "AWSSDK.S3": "3.7.0.32",
+          "Grpc.Core.Api": "2.38.0",
           "Microsoft.AspNet.WebApi.Client": "5.2.7",
           "Microsoft.AspNet.WebApi.Cors": "5.2.7",
           "Microsoft.AspNetCore.Authentication.JwtBearer": "5.0.6",
@@ -358,6 +359,20 @@
         },
         "compile": {
           "lib/netcoreapp3.1/AWSSDK.S3.dll": {}
+        }
+      },
+      "Grpc.Core.Api/2.38.0": {
+        "dependencies": {
+          "System.Memory": "4.5.4"
+        },
+        "runtime": {
+          "lib/netstandard2.0/Grpc.Core.Api.dll": {
+            "assemblyVersion": "2.0.0.0",
+            "fileVersion": "2.38.0.0"
+          }
+        },
+        "compile": {
+          "lib/netstandard2.0/Grpc.Core.Api.dll": {}
         }
       },
       "Humanizer.Core/2.8.26": {
@@ -3893,6 +3908,13 @@
       "sha512": "sha512-Por+i5I+nnhx0buPAwJv316wOT8Yx/xSF5Q/wk2uS1K1815/jIsWMQcvIemwyjsIBNrQY4FUk7wwHD4fLizJIQ==",
       "path": "awssdk.s3/3.7.0.32",
       "hashPath": "awssdk.s3.3.7.0.32.nupkg.sha512"
+    },
+    "Grpc.Core.Api/2.38.0": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-hqQEPxKyCwoq75OXmWDKe/rw/O9YjgdfIYmU/w8r5itMmHJp0HNmfHdxVVW9DSRuA836NM93qYoMdbTYQfWOHA==",
+      "path": "grpc.core.api/2.38.0",
+      "hashPath": "grpc.core.api.2.38.0.nupkg.sha512"
     },
     "Humanizer.Core/2.8.26": {
       "type": "package",

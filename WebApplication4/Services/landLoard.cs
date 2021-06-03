@@ -1,4 +1,5 @@
-﻿using Newtonsoft.Json;
+﻿using Grpc.Core;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -72,7 +73,10 @@ namespace GenieMistro.Services
             if (Res.IsSuccessStatusCode)
             {
                 var Response = Res.Content.ReadAsStringAsync().Result;
+               
                 Db = JsonConvert.DeserializeObject<landLoard>(Response);
+                if (Db == null)
+                    return null;
                 String response = Db.Id.ToString();
                 return response;
             }
@@ -91,7 +95,7 @@ namespace GenieMistro.Services
             //  landLoard.Name = "mohamdDb";
 
 
-            string Baseurl = "https://localhost:44336/";
+            string Baseurl = "http://landlord-bl-staging.azurewebsites.net/";
 
             var client = new HttpClient();
 

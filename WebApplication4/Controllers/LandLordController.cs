@@ -53,6 +53,7 @@ namespace GenieMistro.Controllers
                 string id = await landLoard.GetConnectionStringIDAsync(email);
                 if (id != null)
                     return Ok(id);
+                else return NotFound();
             }
             catch
             {
