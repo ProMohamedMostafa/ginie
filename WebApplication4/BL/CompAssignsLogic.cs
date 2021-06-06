@@ -19,6 +19,7 @@ namespace GenieMistro.BL
         // get all CompAssigns 
         public async Task<List<CompAssign>> GetCompAssigns()
         {
+           
             var compAssign = await _context.CompAssigns.ToListAsync();
             return compAssign;
         }

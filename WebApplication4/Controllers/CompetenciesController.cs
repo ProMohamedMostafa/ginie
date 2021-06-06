@@ -112,15 +112,22 @@ namespace GenieMistro.Controllers
         [HttpPost("{id}")]
         public async Task<IActionResult> DeleteCompetency(int id)
         {
+            IndicatorsLogic idicator = new IndicatorsLogic(_context);
             try
             {
-                var compAssign = await _competenciesLogic.DeleteCompetency(id);
-                if (compAssign == false)
+                if (await idicator.DeleteCascadeComp(id))
                 {
-                    return Ok("Competency Deleted Filled");
-                }
 
+
+                    var compAssign = await _competenciesLogic.DeleteCompetency(id);
+
+                    if (compAssign == false)
+                    {
+                        return Ok("Competency Deleted Filled");
+                    }
+                }
                 return Ok("Competency Deleted success");
+                
             }
             catch (Exception ex)
             {

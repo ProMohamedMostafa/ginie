@@ -20,8 +20,9 @@ namespace GenieMistro.Controllers
         CompAssignsLogic _compAssignsLogic;
         public CompAssignsController(genieDBContext context)
         {
-            _compAssignsLogic = new CompAssignsLogic(_context);
+          
             _context = context;
+            _compAssignsLogic = new CompAssignsLogic(_context);
         }
 
         // GET All CompAssigns
@@ -33,6 +34,8 @@ namespace GenieMistro.Controllers
             {
                 var compAssign = await _compAssignsLogic.GetCompAssigns();
                 return compAssign;
+
+           
             }
             catch (Exception ex)
             {

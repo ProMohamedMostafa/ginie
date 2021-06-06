@@ -61,6 +61,24 @@ namespace GenieMistro.BL
 
         }
 
+        public async Task<bool> DeleteCascadeComp(int CompId)
+        {
+            var indicators = await  _context.Indicators.Where(x=>x.ComId==CompId).ToListAsync();
+            if (indicators == null)
+            {
+                return false;
+            }
+            foreach(Models.Indicator item in  indicators)
+            {
+                _context.Indicators.Remove(item);
+                await _context.SaveChangesAsync();
+            }
+            
+          
+            return true;
+
+        }
+
         // check if Indicator Exist
         public bool IndicatorExists(int id)
         {
