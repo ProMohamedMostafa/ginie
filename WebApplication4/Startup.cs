@@ -60,6 +60,7 @@ namespace WebApplication4
             services.AddControllers().AddNewtonsoftJson(options =>
       options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore
   );
+            //Identity service
             services.AddIdentity<ApplicationUser, IdentityRole>().AddEntityFrameworkStores<genieDBContext>().AddDefaultTokenProviders();
 
             services.AddAuthentication(options =>
@@ -79,8 +80,8 @@ namespace WebApplication4
                         ValidateIssuer = true,
                         ValidateAudience = true,
                         ValidAudience = Configuration["JWT:ValidAudience"],
-                        ValidIssuer = Configuration["JWT:ValidUser"],
-                        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(Configuration["JWT:ValidAudience"]))
+                        ValidIssuer = Configuration["JWT:ValidIssuer"],
+                        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(Configuration["JWT:Secret"]))
                     };
                 }
                 );
@@ -98,9 +99,10 @@ namespace WebApplication4
             }
 
             app.UseHttpsRedirection();
+            app.UseAuthentication();
 
             app.UseRouting();
-            app.UseCors(options => options.WithOrigins("https://localhost:8080").AllowAnyMethod().AllowAnyHeader());
+            app.UseCors(options => options.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader());
 
             app.UseAuthorization();
 

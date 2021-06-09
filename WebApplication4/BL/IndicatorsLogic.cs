@@ -66,7 +66,7 @@ namespace GenieMistro.BL
             var indicators = await  _context.Indicators.Where(x=>x.ComId==CompId).ToListAsync();
             if (indicators == null)
             {
-                return false;
+                return true;
             }
             foreach(Models.Indicator item in  indicators)
             {

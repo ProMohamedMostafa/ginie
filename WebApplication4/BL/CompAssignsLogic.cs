@@ -61,6 +61,30 @@ namespace GenieMistro.BL
 
         }
 
+
+
+
+
+
+        public async Task<bool> DeleteCascadeComp_CompAssigns(int CompId)
+        {
+            var CompAssigns = await _context.CompAssigns.Where(x => x.CompId == CompId).ToListAsync();
+            if (CompAssigns == null)
+            {
+                return true;
+            }
+            foreach (Models.CompAssign item in CompAssigns)
+            {
+                _context.CompAssigns.Remove(item);
+                await _context.SaveChangesAsync();
+            }
+
+
+            return true;
+
+        }
+
+
         // check if CompAssign Exist
         public bool CompAssignExists(int id)
         {

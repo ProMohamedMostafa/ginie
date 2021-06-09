@@ -1,14 +1,19 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using GenieMistro.DTO;
 
 namespace WebApplication4.Controllers
 {
+   
+  
     [ApiController]
     [Route("[controller]")]
+   
     public class WeatherForecastController : ControllerBase
     {
         private static readonly string[] Summaries = new[]
@@ -22,7 +27,7 @@ namespace WebApplication4.Controllers
         {
             _logger = logger;
         }
-
+        [Authorize]
         [HttpGet]
         public IEnumerable<WeatherForecast> Get()
         {

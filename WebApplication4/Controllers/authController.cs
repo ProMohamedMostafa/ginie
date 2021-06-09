@@ -27,25 +27,30 @@ namespace GenieMistro.Controllers
 
 
 
-        private readonly IConfiguration _configuration;
+        private  IConfiguration configuration { get; set; }
 
         public UserManager<ApplicationUser> UserManager { get; set; }
+        private RoleManager<IdentityRole> roleManager { get; set; }
+       private SignInManager<ApplicationUser> signInManager;
 
-        public authController(UserManager<ApplicationUser> _userManager, IConfiguration _configuration)
+        public authController(UserManager<ApplicationUser> _userManager, IConfiguration _configuration, RoleManager<IdentityRole> _roleManager, SignInManager<ApplicationUser> _signInManager)
         {
-            auth = new auth(_userManager, _configuration);
-
+            auth = new auth(_userManager, _configuration,_roleManager);
+            this.signInManager = _signInManager;
             this.UserManager = _userManager;
-            this._configuration = _configuration;
+            this.configuration = _configuration;
+            this.roleManager = _roleManager;
+
         }
             
         [HttpPost]
-
+        
         public async Task<IActionResult> login([FromBody] LoginModel model)
         {
             var user = await UserManager.FindByNameAsync(model.UserName);
             if (user != null && await UserManager.CheckPasswordAsync(user, model.Password))
             {
+                
                 var userRoles = await UserManager.GetRolesAsync(user);
                 var authClaims = new List<Claim>
                 {
@@ -57,24 +62,26 @@ namespace GenieMistro.Controllers
                     authClaims.Add(new Claim(ClaimTypes.Role, userRols));
 
                 }
-                var authSigninKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration["JWT:Secret"]));
+                var authSigninKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(configuration["JWT:Secret"]));
                 var token = new JwtSecurityToken
                     (
-                    issuer: _configuration["JWT:ValidIsUser"],
-                    audience: _configuration["JWT:ValidAudience"],
-                    expires: DateTime.Now.AddHours(10),
+                    issuer: configuration["JWT:ValidIssuer"],
+                    audience: configuration["JWT:validAudience"],
+                    expires: DateTime.Now.AddHours(10000),
                     claims: authClaims,
                     signingCredentials: new SigningCredentials(authSigninKey, SecurityAlgorithms.HmacSha256)
                     );
+                /*var res=  await signInManager.PasswordSignInAsync(model.UserName,
+                             model.Password,false, lockoutOnFailure: true);*/
                 return Ok(new
                 {
 
-                    token = new JwtSecurityTokenHandler().WriteToken(token),
-                    Expiration = token.ValidTo,
-                    User = user.UserName
+                    token = new JwtSecurityTokenHandler().WriteToken(token)
+                    /* Expiration = token.ValidTo,
+                     User = user.UserName*/
 
 
-                });
+                }) ;
 
 
             }
@@ -87,7 +94,25 @@ namespace GenieMistro.Controllers
 
         public async Task<IActionResult> Register([FromBody] RegisterModel model)
         {
+            var userExist = await UserManager.FindByNameAsync(model.UserName);
+            if (userExist != null)
+                return StatusCode(StatusCodes.Status409Conflict);
             String rm = await auth.createUser(model);
+
+            if (rm != null)
+                return Ok(rm);
+
+            return StatusCode(StatusCodes.Status500InternalServerError);
+
+        }
+        [HttpPost]
+        [Route("~/api/auth/RegisterAdmin")]
+        public async Task<IActionResult> RegisterAdmin([FromBody] RegisterModel model)
+        {
+            var userExist = await UserManager.FindByNameAsync(model.UserName);
+            if (userExist != null)
+                return StatusCode(StatusCodes.Status409Conflict);
+            String rm = await auth.CreateAdmin(model);
 
             if (rm != null)
                 return Ok(rm);

@@ -113,9 +113,10 @@ namespace GenieMistro.Controllers
         public async Task<IActionResult> DeleteCompetency(int id)
         {
             IndicatorsLogic idicator = new IndicatorsLogic(_context);
+            CompAssignsLogic compAssignLogic = new CompAssignsLogic(_context);
             try
             {
-                if (await idicator.DeleteCascadeComp(id))
+                if (await idicator.DeleteCascadeComp(id) && await compAssignLogic.DeleteCascadeComp_CompAssigns(id))
                 {
 
 
